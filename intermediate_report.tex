@@ -2,6 +2,9 @@
 
 \usepackage{graphicx}
 \usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{mathtools}
+\usepackage{float}
 
 \begin{document}
 \setlength{\textwidth}{16cm}
@@ -28,11 +31,153 @@ Ivo Fernandes\\ up201303199\\
 \newpage
 
 \section{Objective}
+
+The purpose of this project is to train an Artificial Neural Network, using the Back-Propagation algorithm, in order to predict student performance based on attributes for each student, taking into account aspects of the students private and work life and also attributes like their gender and age.
+
 \section{Description}
 \subsection{Specification}
+
+\subsubsection{Project phases}
+\label{sec:phases}
+To complete this project the group will have to:
+\begin{enumerate}
+\item Understand the structure of a neural network
+\item Understand the mechanism of the back-propagation algorithm
+\item Choose a back-propagation framework and learn it
+\item Learn how to train neural networks
+\item Build different networks and train them
+\item Compare the networks, try different training methods, handle the data-set
+\item Construct a final network and evaluate its accuracy
+\end{enumerate}
+
+\subsubsection{Network Structure}
+\label{sec:network}
+A neural network is comprised of 3 types of layers, each layer containing nodes that represent neurons.
+\begin{itemize}
+\item Input Layer
+\item Hidden Layers
+\item Output Layer
+\end{itemize}
+
+Each layer can have a different number of nodes and all of a layer's nodes are connected to all of the next layer's nodes. There is only one input layer and one output layer. There can be any number of hidden layers, each with any number of nodes, however, to solve most problems, only one hidden layer is required. Usually, the output layer consists of a single node. 
+A neuron consists of 5 main parts:
+\begin{enumerate}
+\item The \textbf{input}, through which the neuron receives information
+\item The \textbf{connection weights}, that determine how much influence each input value has
+\item The \textbf{combination function}, which is usually a sum of the input values times their respective weights
+\item The \textbf{activation function}, which calculates the state of the neuron. The function used is usually the sigmoid function $\frac{1}{1+e^{-\alpha}}$ This function is used because it introduces non-linearity in the network, as opposed to using a step function. This function is also continuous and differentiable. Take $\beta = \frac{1}{1+e^{-\alpha}}$, $\frac{\partial\beta}{\partial\alpha}$ = $\beta (1-\beta)$
+\item The \textbf{output}, which is the result of the transfer function. If we didn't introduce non-linearity by using the sigmoid function, output $s_i \in \{0, 1\}$. Since we introduced non-linearity, output $s_i \in [0, 1]$.
+\end{enumerate}
+\begin{figure}[H]
+\label{fig:example}
+\includegraphics[scale=0.5]{neuron.jpg}
+\centering
+\caption{Example of a neuron, taken from \url{https://blogs.cornell.edu/info2040/2015/09/08/neural-networks-and-machine-learning/}}
+\end{figure}
+\hfill \break
+\hfill \break
+
+\subsubsection{Back-propagation Algorithm}
+\label{sec:back}
+Let $\overrightarrow{z}$ = $f(\overrightarrow{x}, \overrightarrow{w}), \overrightarrow{z}$representing the output of the neural network for the set of inputs $\overrightarrow{x}$ and set of weights $\overrightarrow{w}$
+Let $\overrightarrow{d}$ = $g(\overrightarrow{x}), \overrightarrow{d}$ representing the desired output of the neural network for the set of inputs $\overrightarrow{x}$
+To calculate how well the network is doing we must calculate a function that includes the difference between $\overrightarrow{d}$ and $\overrightarrow{z}$. 
+Let P($\overrightarrow{d}, \overrightarrow{z}$) = $\frac{1}{2} || \overrightarrow{d} -  \overrightarrow{z} ||$, we will call this the Performance function.
+\hfill \break
+\hfill \break
+We want to minimize the Performance function, minimizing it means minimizing the difference between the desired output and the real output, which means this is the direction to go, to make the network learn.
+
+For explaining the back-propagation algorithm we will always refer to a simple network with 2 input nodes.
+For a network with 2 nodes, 2 weights, w1 and w2, $\Delta w = r(\frac{\partial P}{\partial w_1} , \frac{\partial P}{\partial w_2})$, r is the \textbf{learning rate}. As the name suggests, the learning rate will help the network learn faster, however, this rate cannot be too high. If the learning rate is too high, while trying to fit to the curve of the desired weights, the algorithm will get into a feedback loop and not learn anything.
+\begin{figure}[H]
+\label{fig:example}
+\includegraphics[scale=0.3]{performance.png}
+\centering
+\caption{For 2 weights, w1 and w2, we are trying to move in the direction that minimizes the P function}
+\end{figure}
+Since we picked the sigmoid function for our activation function, calculating $\Delta \overrightarrow{w}$ becomes simple.
+Let:
+\begin{itemize}
+\item x be the input of node 1
+\item y be the output of node 1, input of node 2
+\item z be the output of node 2, the output of the network
+\end{itemize}
+
+$\frac{\partial P_j}{\partial w_2} = (d-z)z(1-z)y$
+
+$\frac{\partial P_i}{\partial w_1} = (d-z)z(1-z)xy(1-y)$
+
+But we already calculated $(d-z)z(1-z)y$
+This means that for any number of nodes $\frac{\partial P}{\partial w_i}$ depends on $\frac{\partial P}{\partial w_i+1}$, the input of $node_i$, and its output. This gives the back-propagation algorithm its name. We propagate the error, $\frac{\partial P}{\partial w_i+1}$, backwards, in order to calculate $\Delta \overrightarrow{w}$, the vector containing the error for each weight.
+
+By using multiple iterations, the algorithm adjusts the weights of the network, minimizing the performance function.
+
+The calculation of $\Delta \overrightarrow{w}$ may also be influenced by \textbf{momentum}. To incorporate momentum into the calculation, the new formula is:
+
+$\Delta \overrightarrow{w}(t) = r(\frac{\partial P}{\partial w_1} , \frac{\partial P}{\partial w_2}) + m \Delta \overrightarrow{w}(t-1)$, t is the iteration number, m the momentum constant. The momentum is usually set to a high value between 0 and 1.
+
+When we calculate $\Delta w$ we are going along the gradient of the activation function, in the direction specified by the output error. If by going along this direction, we skip the ideal point for the weights, we must go back. Momentum helps with this situation, if the algorithm was moving in a direction and it suddenly changes directions, the first step will be small, since it takes into account the direction of the last step, which was opposite to the direction of the new step.
+\hfill \break
+\hfill \break
+The back-propagation algorithm must also shuffle the dataset instances before starting each iteration, otherwise it will be unable to successfully train.
+\subsubsection{Training a series of Networks for the same dataset}
+\label{sec:training}
+The data-set to be used on the project has \href{http://archive.ics.uci.edu/ml/datasets/Student+Performance}{\underline{33 attributes and 649 instances}}. 
+The 33rd attribute of the data-set is the final grade, this will be our single output node. This means that, initially, there will be 32 input nodes.
+One of the main purposes of the project, is treating the dataset, reducing non-important attributes. This will make the network training more efficient, since there will be less nodes to weight.
+\hfill \break
+\hfill \break
+To train and test the network we will have to divide the dataset into two separate groups. The \textbf{Training Set} and the \textbf{Test Set}, these groups will be used to train different networks, however, they will be the same for all the networks. We could use a \textbf{Validation Set}, but since we only have 649 instances, having 3 disjoint sets would mean small sets, thus, we chose not to use the Validation Set, hhich may or may not be used in the training of a neural network.
+
+We will keep the Training Set size at 2/3 of the number of instances and the Test Set at 1/3, as it is usual to follow this approach. 
+\hfill \break
+\hfill \break
+As described in the \hyperref[sec:network]{Network} section, the network may have any number of hidden layers, each with any number of nodes. We must fiddle with these values while creating different networks, in order to create better networks with faster training times and better accuracy.
+\hfill \break
+\hfill \break
+The network's learn rate and momentum may also be adjusted. We already discussed where these attributes affect the algorithm in the \hyperref[sec:back]{previous} section.
+\hfill \break
+\hfill \break
+We can also adjust the error threshold to be achieved, which means that when the back-propagation calculated error is below the threshold, the training of the network stops.
 \subsection{Work Done}
+From the project \hyperref[sec:phases]{phases} section, we already concluded the first 4 items:
+
+\begin{enumerate}
+\item Understand the structure of a neural network
+\item Understand the mechanism of the back-propagation algorithm
+\item Choose a back-propagation framework and learn it
+\item Learn how to train neural networks
+\end{enumerate}
+
+The rest of the work will lead to the conclusion of the project.
 \subsection{Expected Results and Tests}
+From training different networks, and fiddling with the attributes referenced in the \hyperref[sec:training]{training} section, we expect to see different training times and network accuracies. 
+
+We are unable to set an accuracy goal for our final network, but we hope to see a noticeable increase when comparing our final network to our first.
 \section{Conclusions}
+So far we have learned how a neural network is structured, how the back-propagation algorithm works and how to differently train networks in order to achieve different results.
+
+Learning this subject was fun because of how easy it is to be impressed by machines learning through training. And now we have some knowledge of how it works.
 \section{Resources}
+
+\subsection{Bibliography}
+
+\url{https://web.fe.up.pt/~eol/IA/1516/APONTAMENTOS/7_RN.pdf}
+
+\href{https://www.youtube.com/watch?v=q0pm3BrIUFo}{Neural Nets, Back Propagation, Patrick Winston, M.I.T.}
+
+\url{http://www.faqs.org/faqs/ai-faq/neural-nets/}
+
+\url{http://stats.stackexchange.com/questions/181/how-to-choose-the-number-of-hidden-layers-and-nodes-in-a-feedforward-neural-netw}
+
+\url{http://www.akamaiuniversity.us/PJST9_1_72}
+
+\url{https://takinginitiative.wordpress.com/2008/04/23/basic-neural-network-tutorial-c-implementation-and-source-code/}
+
+\url{https://github.com/harthur/brain}
+
+\subsection{Software}
+
+To train the network, we will use the javascript framework \href{https://github.com/harthur/brain}{\textbf{BrainJS}}, an open source implementation of a neural network, using the back-propagation algorithm, implemented using the basic sigmoid function.
 
 \end{document}
