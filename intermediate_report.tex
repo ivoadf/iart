@@ -109,7 +109,7 @@ $\frac{\partial P}{\partial w_1} = (d-z)z(1-z)xw_2y(1-y)$
 
 But we already calculated $(d-z)z(1-z)$ .
 
-This means that $w_2$ depends on $z$ and $y$. As for $w_1$, it depends on $w_2, x$ and $y$ this means that calculating the error for one of the weights is a local computation. This gives the back-propagation algorithm its name. We propagate the error, $\frac{\partial P}{\partial w_2}$, backwards, in order to calculate $\Delta \overrightarrow{w}$, the vector containing the error for each weight.
+This means that $w_2$ depends on $z$ and $y$. As for $w_1$, it depends on $w_2, x$ and $y$. This gives the back-propagation algorithm its name. We propagate the error, $\frac{\partial P}{\partial w_2}$, backwards, in order to calculate $\Delta \overrightarrow{w}$, the vector containing the error for each weight.
 
 By using multiple iterations, the algorithm adjusts the weights of the network, minimizing the performance function.
 
