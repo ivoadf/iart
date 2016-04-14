@@ -87,8 +87,8 @@ Let P($\overrightarrow{d}, \overrightarrow{z}$) = $\frac{1}{2} || \overrightarro
 \hfill \break
 We want to minimize the Performance function, minimizing it means minimizing the difference between the desired output and the real output, which means this is the direction to go, to make the network learn.
 
-For explaining the back-propagation algorithm we will always refer to a simple network with 2 input nodes.
-For a network with 2 nodes, 2 weights, w1 and w2, $\Delta w = r(\frac{\partial P}{\partial w_1} , \frac{\partial P}{\partial w_2})$, r is the \textbf{learning rate}. As the name suggests, the learning rate will help the network learn faster, however, this rate cannot be too high. If the learning rate is too high, while trying to fit to the curve of the desired weights, the algorithm will get into a feedback loop and not learn anything.
+For explaining the back-propagation algorithm we will always refer to a simple network with 1 input node and 1 hidden node.
+For a network with 2 nodes, 2 weights, w1 and w2, $\Delta w = r(\frac{\partial P}{\partial w_1} , \frac{\partial P}{\partial w_2})$, r is the \textbf{learning rate}. As the name suggests, the learning rate will help the network learn faster, however, this rate cannot be too high. If the learning rate is too high, while trying to fit to the curve of the desired weights, the algorithm will get into a feedback loop, never converging to the minimum and learning nothing.
 \begin{figure}[H]
 \label{fig:example}
 \includegraphics[scale=0.3]{performance.png}
@@ -103,14 +103,22 @@ Let:
 \item z be the output of node 2, the output of the network
 \end{itemize}
 
-$\frac{\partial P_j}{\partial w_2} = (d-z)z(1-z)y$
+$\frac{\partial P}{\partial w_2} = (d-z)z(1-z)y$
 
-$\frac{\partial P_i}{\partial w_1} = (d-z)z(1-z)xy(1-y)$
+$\frac{\partial P}{\partial w_1} = (d-z)z(1-z)xw_2y(1-y)$
 
-But we already calculated $(d-z)z(1-z)y$
-This means that for any number of nodes $\frac{\partial P}{\partial w_i}$ depends on $\frac{\partial P}{\partial w_i+1}$, the input of $node_i$, and its output. This gives the back-propagation algorithm its name. We propagate the error, $\frac{\partial P}{\partial w_i+1}$, backwards, in order to calculate $\Delta \overrightarrow{w}$, the vector containing the error for each weight.
+But we already calculated $(d-z)z(1-z)$ .
+
+This means that $w_2$ depends on $z$ and $y$. As for $w_1$, it depends on $w_2, x$ and $y$ this means that calculating the error for one of the weights is a local computation. This gives the back-propagation algorithm its name. We propagate the error, $\frac{\partial P}{\partial w_2}$, backwards, in order to calculate $\Delta \overrightarrow{w}$, the vector containing the error for each weight.
 
 By using multiple iterations, the algorithm adjusts the weights of the network, minimizing the performance function.
+
+\begin{figure}[H]
+\label{fig:example}
+\includegraphics[scale=0.4]{example.png}
+\centering
+\caption{Example network with 1 input node and 1 hidden node, red arrows represent dependence.}
+\end{figure}
 
 The calculation of $\Delta \overrightarrow{w}$ may also be influenced by \textbf{momentum}. To incorporate momentum into the calculation, the new formula is:
 
@@ -119,15 +127,20 @@ $\Delta \overrightarrow{w}(t) = r(\frac{\partial P}{\partial w_1} , \frac{\parti
 When we calculate $\Delta w$ we are going along the gradient of the activation function, in the direction specified by the output error. If by going along this direction, we skip the ideal point for the weights, we must go back. Momentum helps with this situation, if the algorithm was moving in a direction and it suddenly changes directions, the first step will be small, since it takes into account the direction of the last step, which was opposite to the direction of the new step.
 \hfill \break
 \hfill \break
+A factor that may lead to a unsuccessful train of the network is the number of iterations, if the number of iterations is too high over fitting may start to happen. Over fitting is when the algorithm tries so hard to fit to the sample (training set) that values nearby the ones used may become distorted, and when faced with a similar situation the network will output a very different value.
+\hfill \break
+\hfill \break
 The back-propagation algorithm must also shuffle the dataset instances before starting each iteration, otherwise it will be unable to successfully train.
 \subsubsection{Training a series of Networks for the same dataset}
 \label{sec:training}
 The data-set to be used on the project has \href{http://archive.ics.uci.edu/ml/datasets/Student+Performance}{\underline{33 attributes and 649 instances}}. 
 The 33rd attribute of the data-set is the final grade, this will be our single output node. This means that, initially, there will be 32 input nodes.
 One of the main purposes of the project, is treating the dataset, reducing non-important attributes. This will make the network training more efficient, since there will be less nodes to weight.
+
+The framework we will be using restricts the inputs and outputs to be in the range [0-1], so to train and test our network we need to first parse the data and transform all the inputs into the corresponding value in the rage [0-1].
 \hfill \break
 \hfill \break
-To train and test the network we will have to divide the dataset into two separate groups. The \textbf{Training Set} and the \textbf{Test Set}, these groups will be used to train different networks, however, they will be the same for all the networks. We could use a \textbf{Validation Set}, but since we only have 649 instances, having 3 disjoint sets would mean small sets, thus, we chose not to use the Validation Set, hhich may or may not be used in the training of a neural network.
+To train and test the network we will have to divide the dataset into two separate groups. The \textbf{Training Set} and the \textbf{Test Set}, these groups will be used to train different networks, however, they will be the same for all the networks. We could use a \textbf{Validation Set}, but since we only have 649 instances, having 3 disjoint sets would mean small sets, thus, we chose not to use the Validation Set, which may or may not be used in the training of a neural network.
 
 We will keep the Training Set size at 2/3 of the number of instances and the Test Set at 1/3, as it is usual to follow this approach. 
 \hfill \break
