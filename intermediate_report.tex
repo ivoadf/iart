@@ -32,7 +32,7 @@ Ivo Fernandes\\ up201303199\\
 
 \section{Objective}
 
-The purpose of this project is to train an Artificial Neural Network, using the Back-Propagation algorithm, in order to predict student performance based on attributes for each student, taking into account aspects of the students private and work life and also attributes like their gender and age.
+The purpose of this project is to train an Artificial Neural Network, using the Back-Propagation algorithm, in order to predict student performance based on attributes for each student, taking into account aspects of the student's private and work life and also attributes like their gender and age.
 
 \section{Description}
 \subsection{Specification}
@@ -59,7 +59,7 @@ A neural network is comprised of 3 types of layers, each layer containing nodes 
 \item Output Layer
 \end{itemize}
 
-Each layer can have a different number of nodes and all of a layer's nodes are connected to all of the next layer's nodes. There is only one input layer and one output layer. There can be any number of hidden layers, each with any number of nodes, however, to solve most problems, only one hidden layer is required. Usually, the output layer consists of a single node. 
+Each layer can have a different number of nodes and all of a layer's nodes are connected to all of the next layer's nodes. There is only one input layer and one output layer. There can be any number of hidden layers, each with any number of nodes. To solve most problems, only one hidden layer is required. Usually, the output layer consists of a single node. 
 A neuron consists of 5 main parts:
 \begin{enumerate}
 \item The \textbf{input}, through which the neuron receives information
@@ -109,7 +109,8 @@ $\frac{\partial P}{\partial w_1} = (d-z)z(1-z)xw_2y(1-y)$
 
 But we already calculated $(d-z)z(1-z)$ .
 
-This means that $w_2$ depends on $z$ and $y$. As for $w_1$, it depends on $w_2, x$ and $y$. This gives the back-propagation algorithm its name. We propagate the error, $\frac{\partial P}{\partial w_2}$, backwards, in order to calculate $\Delta \overrightarrow{w}$, the vector containing the error for each weight.
+This means that a given node's weight depends on the node's input, output, the weight of the next node and the partial derivative of the next node.
+This gives the back-propagation algorithm its name. We propagate the error, $\frac{\partial P}{\partial w_2}$, backwards, in order to calculate $\Delta \overrightarrow{w}$, the vector containing the error for each weight.
 
 By using multiple iterations, the algorithm adjusts the weights of the network, minimizing the performance function.
 
@@ -127,10 +128,10 @@ $\Delta \overrightarrow{w}(t) = r(\frac{\partial P}{\partial w_1} , \frac{\parti
 When we calculate $\Delta w$ we are going along the gradient of the activation function, in the direction specified by the output error. If by going along this direction, we skip the ideal point for the weights, we must go back. Momentum helps with this situation, if the algorithm was moving in a direction and it suddenly changes directions, the first step will be small, since it takes into account the direction of the last step, which was opposite to the direction of the new step.
 \hfill \break
 \hfill \break
-A factor that may lead to a unsuccessful train of the network is the number of iterations, if the number of iterations is too high over fitting may start to happen. Over fitting is when the algorithm tries so hard to fit to the sample (training set) that values nearby the ones used may become distorted, and when faced with a similar situation the network will output a very different value.
+A factor that may lead to unsuccessfully training the network is the number of iterations. If the number of iterations is too high overfitting may start to happen. Over fitting is when the algorithm tries so hard to fit to the sample (training set) that values nearby the ones used may become distorted, and when faced with a similar situation the network will output a very different value.
 \hfill \break
 \hfill \break
-The back-propagation algorithm must also shuffle the dataset instances before starting each iteration, otherwise it will be unable to successfully train.
+The back-propagation algorithm must also shuffle the dataset instances before starting each iteration, otherwise it will be unable to successfully train. The chosen framework does this.
 \subsubsection{Training a series of Networks for the same dataset}
 \label{sec:training}
 The data-set to be used on the project has \href{http://archive.ics.uci.edu/ml/datasets/Student+Performance}{\underline{33 attributes and 649 instances}}. 
