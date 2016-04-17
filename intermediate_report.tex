@@ -137,7 +137,7 @@ The data-set to be used on the project has \href{http://archive.ics.uci.edu/ml/d
 The 33rd attribute of the data-set is the final grade, this will be our single output node. This means that, initially, there will be 32 input nodes.
 One of the main purposes of the project, is treating the dataset, reducing non-important attributes. This will make the network training more efficient, since there will be less nodes to weight.
 
-The framework we will be using restricts the inputs and outputs to be in the range [0-1], so to train and test our network we need to first parse the data and transform all the inputs into the corresponding value in the rage [0-1].
+The framework we will be using restricts the inputs and outputs to be in the range [0, 1], so to train and test our network we need to first parse the data and transform all the inputs into the corresponding value in the range [0, 1].
 \hfill \break
 \hfill \break
 To train and test the network we will have to divide the dataset into two separate groups. The \textbf{Training Set} and the \textbf{Test Set}, these groups will be used to train different networks, however, they will be the same for all the networks. We could use a \textbf{Validation Set}, but since we only have 649 instances, having 3 disjoint sets would mean small sets, thus, we chose not to use the Validation Set, which may or may not be used in the training of a neural network.
