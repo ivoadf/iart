@@ -105,9 +105,9 @@ Let:
 
 $\frac{\partial P}{\partial w_2} = (d-z)z(1-z)y$
 
-$\frac{\partial P}{\partial w_1} = (d-z)z(1-z)xw_2y(1-y)$
+$\frac{\partial P}{\partial w_1} = (d-z)z(1-z)yw_2x(1-y)$
 
-But we already calculated $(d-z)z(1-z)$ .
+But we already calculated $(d-z)z(1-z)y$, which is $\frac{\partial P}{\partial w_2}$
 
 This means that a given node's weight depends on the node's input, output, the weight of the next node and the partial derivative of the next node.
 This gives the back-propagation algorithm its name. We propagate the error, $\frac{\partial P}{\partial w_2}$, backwards, in order to calculate $\Delta \overrightarrow{w}$, the vector containing the error for each weight.

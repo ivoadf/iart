@@ -1,0 +1,374 @@
+<!DOCTYPE HTML>
+
+<head>
+  <meta charset="utf-8">
+  <title>IART E5_1 2015/2016</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script src="bundle.js"></script>
+  <link href="bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+  <script src="bootstrap-filestyle-1.2.1/bootstrap-filestyle.min.js"></script>
+</head>
+
+<body>
+  </br>
+  <div id="create" style="display:none">
+    <div id="file" class="form-group col-md-12">
+      <label class="text-center col-md-4 col-md-offset-4" for="fileInput">Add file or paste data set</label>
+      <label style="color:white">a</label>
+      <input id="fileInput" class="filestyle" data-classButton="btn btn-primary" type="file"> </input>
+    </div>
+    <div class="form-group col-md-12">
+      <textarea placeholder="Data Set input" class="form-control" rows="5"></textarea>
+    </div>
+
+    <div id="set_creation" class="container-fluid">
+      <div class="col-md-4">
+        <div class="input-group">
+          <span class="input-group-addon">Training Set Size:</span>
+          <input type="text" value="70" class="form-control" id="trSet">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="input-group">
+          <span class="input-group-addon">Test Set Size:</span>
+          <input type="text" value="30" class="form-control" id="teSet">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="input-group">
+          <span class="input-group-addon">Data Set delimiter</span>
+          <input id="delimiter" value=";" type="text" class="form-control">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      </br>
+      <button id="create_sets" class="btn btn-primary col-md-4 col-md-offset-4" type="button">Create Training and Test sets</button>
+
+      <script>
+        //Taken from: http://stackoverflow.com/a/2450976
+        function shuffle(array) {
+          var currentIndex = array.length,
+            temporaryValue, randomIndex;
+
+          // While there remain elements to shuffle...
+          while (0 !== currentIndex) {
+
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+          }
+
+          return array;
+        }
+
+
+        var test_set = [],
+          train_set = [],
+          data_attr,
+          node_attr = [];
+        var attr_count = [];
+        //used to give numeric values to string attributes
+        var data_attr_range = [];
+
+        function fillSet(set, set_size, start_index, delimiter, lines) {
+          for (var i = start_index; i < set_size + start_index; i++) {
+            var line = lines[i].split(delimiter);
+            set[i - start_index] = [];
+            for (var j = 0; j < line.length; j++) {
+              if (data_attr_range[data_attr[j]]['max'] != null) {
+                set[i - start_index][data_attr[j]] = (line[j] - data_attr_range[data_attr[j]]['min']) / (data_attr_range[data_attr[j]]['max'] - data_attr_range[data_attr[j]]['min']);
+              } else {
+                set[i - start_index][data_attr[j]] = data_attr_range[data_attr[j]][line[j]];
+              }
+            }
+          }
+
+          return set;
+        }
+
+        function parseData() {
+          var lines = $("textarea").val().replace(/"/g, "").split('\n');
+          var delimiter = $("#delimiter").val();
+
+          if (lines.length <= 2) {
+            return "Not enough information to create sets";
+          }
+
+          data_attr = lines[0].split(delimiter);
+          lines.splice(0, 1);
+          lines = shuffle(lines);
+
+          for (var i = 0; i < data_attr.length; i++) {
+            attr_count[data_attr[i]] = [];
+            if (i == data_attr.length - 1) {
+              node_attr[data_attr[i]] = true;
+            } else {
+              node_attr[data_attr[i]] = false;
+            }
+          }
+
+
+          var train_set_size = parseInt($("#trSet").val());
+          var test_set_size = parseInt($("#teSet").val());
+
+          if (train_set_size + test_set_size != 100) {
+            return "Training Set Size + Test Set Size = 100";
+          }
+
+          train_set_size = Math.floor(train_set_size / 100 * lines.length);
+          test_set_size = Math.floor(test_set_size / 100 * lines.length);
+
+          if (train_set_size + test_set_size != lines.length) {
+            train_set_size += 1;
+          }
+
+          for (var i = 0; i < lines.length; i++) {
+            var line = lines[i].split(delimiter);
+            if (line.length == data_attr.length) {
+              for (var j = 0; j < line.length; j++) {
+                if (attr_count[data_attr[j]][line[j]] == null) {
+                  attr_count[data_attr[j]][line[j]] = true;
+                }
+              }
+            }
+          }
+
+          for (var i = 0; i < data_attr.length; i++) {
+            data_attr_range[data_attr[i]] = [];
+            //max is for numeric values, to hold the max value for that attribute
+            //length is used for string values, to know how many different values the attribute has
+            Object.keys(attr_count[data_attr[i]]).forEach(function(key, index) {
+              if ($.isNumeric(key)) {
+                if (data_attr_range[data_attr[i]]['max'] == null) {
+                  data_attr_range[data_attr[i]]['max'] = parseInt(key);
+                } else {
+                  if (parseInt(key) > data_attr_range[data_attr[i]]['max']) {
+                    data_attr_range[data_attr[i]]['max'] = parseInt(key);
+                  }
+                }
+                if (data_attr_range[data_attr[i]]['min'] == null) {
+                  data_attr_range[data_attr[i]]['min'] = parseInt(key);
+                } else {
+                  if (parseInt(key) < data_attr_range[data_attr[i]]['min']) {
+                    data_attr_range[data_attr[i]]['min'] = parseInt(key);
+                  }
+                }
+              } else {
+                if (data_attr_range[data_attr[i]][key] == null) {
+                  if (Object.keys(attr_count[data_attr[i]]).length == 1) {
+                    data_attr_range[data_attr[i]][key] = 1;
+                  } else {
+                    data_attr_range[data_attr[i]][key] = Object.keys(data_attr_range[data_attr[i]]).length / (Object.keys(attr_count[data_attr[i]]).length - 1.0);
+                  }
+                }
+              }
+            })
+          }
+
+
+          fillSet(train_set, train_set_size, 0, delimiter, lines);
+          fillSet(test_set, test_set_size, train_set_size, delimiter, lines);
+
+          return false;
+        }
+
+
+        $(document).ready(function() {
+          $("#create_sets").click(function() {
+            var ret = parseData();
+            if (ret) {
+              show_error($("#set_creation"), ret);
+            } else {
+              $("#create").slideToggle('fast');
+              construct_table();
+            }
+          })
+        })
+      </script>
+    </div>
+
+  </div>
+
+  </br>
+
+  <div id="create_add" class="container container-table">
+    <button class="btn btn-primary col-md-4 col-md-offset-1" type="button">Add Data set</button>
+    <button class="btn btn-primary col-md-4 col-md-offset-2" type="button">Add my own Training and Test sets</button>
+
+    <script>
+      $(document).ready(function() {
+        $($("#create_add button")[0]).click(function() {
+          $("#create").slideToggle('fast');
+          $("#create_add").slideToggle('fast');
+        })
+
+        $($("#create_add button")[1]).click(function() {
+          $("#add").slideToggle('fast');
+          $("#create_add").slideToggle('fast');
+        })
+      })
+    </script>
+  </div>
+
+  </br>
+  </br>
+
+  <script>
+    fr = new FileReader();
+
+    setSizes = function(clicked, other) {
+      if (isNaN(clicked.val()) || clicked.val() < 0 || clicked.val() > 100) {
+        show_error($("#set_creation"), 'Training Set Size + Test Set Size = 100');
+      } else {
+        other.val(100 - clicked.val());
+      }
+    }
+
+    $(document).ready(function() {
+      $("#trSet").keyup(function() {
+        setSizes($("#trSet"), $("#teSet"));
+      })
+      $("#teSet").keyup(function() {
+        setSizes($("#teSet"), $("#trSet"));
+      })
+
+      $("input[type='file']").change(function() {
+        fr.onload = function() {
+          $("textarea").val(fr.result);
+        }
+        fr.readAsText($(this)[0].files[0])
+      })
+    })
+  </script>
+
+
+
+
+  <div class="container">
+    <div id="options" style="display:none">
+      <button id="toggle_types" class="col-md-3 btn btn-primary">Set up node types</button>
+      <button id="toggle_layers" class="col-md-4 col-md-offset-1 btn btn-primary">Set up hidden layers</button>
+      <button id="toggle_options" class="col-md-3 col-md-offset-1 btn btn-primary">Set up training options</button>
+      <script>
+        var toggle_string = ["#node_options", "#hidden_layers", "#train_options"];
+        var toggled = [0, 0, 0];
+
+        function toggleOptionMenus(index) {
+          for (var i = 0; i < toggled.length; i++) {
+            if (i != index && toggled[i]) {
+              toggled[i] = 0;
+              $(toggle_string[i]).slideToggle('fast');
+            }
+          }
+          toggled[index] = 1;
+          $(toggle_string[index]).slideToggle('fast');
+        }
+
+        $("#toggle_types").click(function() {
+          toggleOptionMenus(0);
+        })
+        $("#toggle_layers").click(function() {
+          toggleOptionMenus(1);
+        })
+        $("#toggle_options").click(function() {
+          toggleOptionMenus(2);
+        })
+      </script>
+
+    </br>
+    </br>
+
+    <table id="node_options" class="table table-responsive table-condensed" style="display:none">
+      <tbody>
+      </tbody>
+    </table>
+
+    <div id="hidden_layers" style="display:none">
+      <div class="input-group">
+        <span class="input-group-addon">Number of hidden layers</span>
+        <input id="hidden_layers_num" value="1" type="text" class="form-control">
+      </div>
+      </br>
+      <div id="hidden_layer_list">
+        <div class="input-group">
+          <span class="input-group-addon">Node number hidden layer #1</span>
+          <input id="hidden_layer_0" value="1" type="text" class="form-control hidden-layer">
+        </div>
+      </div>
+    </div>
+
+    <div id="train_options" style="display:none">
+      <div class="container">
+        <div class="panel panel-default">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="panel panel-default">
+                <div class="panel-heading">Error Threshold</div>
+                <input id="threshold" value="0.005" type="text" class="form-control">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="panel panel-default">
+                <div class="panel-heading">Max Iterations</div>
+                <input id="iterations" value="20000" type="text" class="form-control">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="panel panel-default">
+                <div class="panel-heading">Momentum</div>
+                <input id="momentum" value="0.8" type="text" class="form-control">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="panel panel-default">
+                <div class="panel-heading">Learning Rate</div>
+                <input id="learning_rate" value="0.3" type="text" class="form-control">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+      var threshold = 0.005;
+      var iterations = 20000;
+      var momentum = 0.8;
+      var learning_rate = 0.3;
+      $(document).ready(function(){
+        $("#threshold").keyup(function(){
+          threshold = $(this).val();
+        })
+        $("#iterations").keyup(function(){
+          iterations = $(this).val();
+        })
+        $("#momentum").keyup(function(){
+          momentum = $(this).val();
+        })
+        $("#learning_rate").keyup(function(){
+          learning_rate = $(this).val();
+        })
+      })
+      </script>
+    </div>
+  </br>
+    <button class="col-md-5 btn btn-primary">Train Network</button>
+        <button class="col-md-5 col-md-offset-2 btn btn-primary">Save Network</button>
+      </div>
+  </div>
+
+  <div class="footer navbar-fixed-bottom text-center">
+    FEUP - IART - E5_1 - Gonçalo Lopes &amp Ivo Fernandes - 2015 / 2016
+  </div>
+  <script src="js/errors.js"></script>
+  <script src="js/node_options.js"></script>
+  <script src="js/download.js"></script>
+</body>
