@@ -385,13 +385,37 @@ $(document).ready(function(){
     //options[log]
     //options[logPeriod]
     createNetwork(hidden_layers);
+
+    //train
     var stats = trainNetwork(node_attr,train_set,options);
     var tr_iterations = "<tr><th>Number Iterations</th><td>"+stats["iterations"]+"</td></tr>";
     var tr_threshold = "<tr><th>Error threshold</th><td>"+stats["error"]+"</td></tr>";
     var stat_table = "<table class='table table-hover'>"+ tr_iterations + tr_threshold + "</table>";
     var stat_dom = "<div class='row train_stats'><h2>Train Statistics</h2>"+stat_table+"</div>";
-    
     $(".container").append(stat_dom);
+
+    //test
+    var test_results = testNetwork(node_attr, test_set);
+    console.log(test_results);
+    var results_table = "<table id='results_table' class='table table-hover'><thead><tr></tr></thead><tbody></tbody></table>";
+    var results_dom = "<div class='row'><h2>Test Results</h2>"+results_table+"</div>";
+    $(".container").append(results_dom);
+    var first = true;
+    for(i=0;i<test_results.length;i++){
+      $("#results_table > tbody").append("<tr></tr>");
+      var expected_res = test_results[i]['expected'];
+      var net_res = test_results[i]['net_result'];
+        Object.keys(expected_res).forEach(function (key) {
+          var expected_value = expected_res[key];
+          var net_value = net_res[key];
+          if(first){
+            $("#results_table > thead > tr:first-child").append("<th>Expected "+key+"</th>");
+            $("#results_table > thead > tr:first-child").append("<th>Obtained "+key+"</th>");
+            first=false;
+          }
+          $("#results_table > tbody > tr:last-child").append("<td>"+expected_value+"</td><td>"+net_value+"</td>");
+        })
+    }
   })
 })
 </script>
