@@ -72,7 +72,7 @@
 
         var test_set = [],
           train_set = [],
-          data_attr,
+          data_attr = [],
           node_attr = [];
         var attr_count = [];
         //used to give numeric values to string attributes
@@ -95,7 +95,7 @@
         }
 
         function parseData() {
-          var lines = $("textarea").val().replace(/"/g, "").split('\n');
+          var lines = $("#create textarea").val().replace(/"/g, "").split('\n');
           var delimiter = $("#delimiter").val();
 
           if (lines.length <= 2) {
@@ -109,9 +109,9 @@
           for (var i = 0; i < data_attr.length; i++) {
             attr_count[data_attr[i]] = [];
             if (i == data_attr.length - 1) {
-              node_attr[data_attr[i]] = true;
+              node_attr[data_attr[i]] = 1;
             } else {
-              node_attr[data_attr[i]] = false;
+              node_attr[data_attr[i]] = 0;
             }
           }
 
@@ -197,11 +197,23 @@
 
   </div>
 
+  <div id="add" style="display:none">
+    <div id="file" class="form-group col-md-12">
+      <label class="text-center col-md-4 col-md-offset-4" for="fileInput1">Add network file or paste network info</label>
+      <label style="color:white">a</label>
+      <input id="fileInput1" class="filestyle" data-classButton="btn btn-primary" type="file"> </input>
+    </div>
+    <div class="form-group col-md-12">
+      <textarea placeholder="Data Set input" class="form-control" rows="5"></textarea>
+    </div>
+    <button id="load" class="btn btn-primary col-md-4 col-md-offset-4" type="button">Load network</button>
+  </div>
+
   </br>
 
   <div id="create_add" class="container container-table">
     <button class="btn btn-primary col-md-4 col-md-offset-1" type="button">Add Data set</button>
-    <button class="btn btn-primary col-md-4 col-md-offset-2" type="button">Add my own Training and Test sets</button>
+    <button class="btn btn-primary col-md-4 col-md-offset-2" type="button">Load Network</button>
 
     <script>
       $(document).ready(function() {
@@ -241,8 +253,9 @@
       })
 
       $("input[type='file']").change(function() {
+        var input = $(this);
         fr.onload = function() {
-          $("textarea").val(fr.result);
+          input.parent().parent().find("textarea").val(fr.result);
         }
         fr.readAsText($(this)[0].files[0])
       })
@@ -268,7 +281,7 @@
               $(toggle_string[i]).slideToggle('fast');
             }
           }
-          toggled[index] = 1;
+          toggled[index] = !toggled[index];
           $(toggle_string[index]).slideToggle('fast');
         }
 
@@ -360,8 +373,15 @@
       </script>
     </div>
   </br>
-    <button class="col-md-5 btn btn-primary">Train Network</button>
-        <button class="col-md-5 col-md-offset-2 btn btn-primary">Save Network</button>
+    <button class="col-md-5 btn btn-primary">Create, Train and Test </button>
+        <button id="save" class="col-md-5 col-md-offset-2 btn btn-primary">Save Network</button>
+        <script>
+          $(document).ready(function(){
+            $("#save").click(function(){
+              download();
+            })
+          })
+        </script>
       </div>
   </div>
 
@@ -371,4 +391,5 @@
   <script src="js/errors.js"></script>
   <script src="js/node_options.js"></script>
   <script src="js/download.js"></script>
+  <script src="js/load.js"></script>
 </body>

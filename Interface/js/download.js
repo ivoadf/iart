@@ -21,33 +21,33 @@ function writeSet(set) {
       if (i < data_attr.length - 1)
         ret += ";"
     }
-    if (j < set.length - 1)
+    if (j < set.length - 1){
       ret += "|"
+    }
+    else{
+       ret += "\n";
+    }
   }
   return ret;
 }
 
 function createDataFile() {
   var file = "";
-  file += "iterations\n";
-  file += iterations;
-  file += "\nthreshold\n";
-  file += threshold;
-  file += "\nmomentum\n";
-  file += momentum;
-  file += "\nlearning_rate\n";
-  file += learning_rate;
-  file += "\nhidden_layers\n";
-  file += hidden_layers;
-  file += "\nnode_attr\n";
+  file += iterations + "\n";
+  file += threshold + "\n";
+  file += momentum + "\n";
+  file += learning_rate + "\n";
+  file += hidden_layers + "\n";
   for (var i = 0; i < data_attr.length; i++) {
     file += data_attr[i] + ":" + node_attr[data_attr[i]];
-    if (i < data_attr.length - 1)
+    if (i < data_attr.length - 1){
       file += ";"
+    }
+      else{
+         file += "\n";
+      }
   }
-  file += "\ntrain_set\n";
   file += writeSet(train_set);
-  file += "\ntest_set\n";
   file += writeSet(test_set);
   return file;
 }
