@@ -1,16 +1,30 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var brain = require('brain');
-
-var net = new brain.NeuralNetwork();
-
-net.train([{input: [0, 0], output: [0]},
-       {input: [0, 1], output: [1]},
-       {input: [1, 0], output: [1]},
-       {input: [1, 1], output: [0]}]);
-
-var output = net.run([1, 0]);  // [0.987]
-
-console.log("here is " + output);
+var net;
+window.createNetwork = function (hidden_layers){
+  net = new brain.NeuralNetwork(hidden_layers);
+}
+window.trainNetwork = function (node_attr, train_set, options){
+  var train_array = [];
+  for(i=0;i<train_set.length;i++){
+    input_hash = {};
+    output_hash = {};
+    Object.keys(train_set[i]).forEach(function (key) {
+      var value = train_set[i][key];
+      if(node_attr[key]=='0'){//input node
+        input_hash[key] = value;
+      }
+      else if(node_attr[key]=='1'){//output node
+        output_hash[key] = value;
+      }
+    })
+    var train_hash = {};
+    train_hash['input'] = input_hash;
+    train_hash['output'] = output_hash;
+    train_array.push(train_hash);
+  }
+  return net.train(train_array,options)
+}
 
 },{"brain":2}],2:[function(require,module,exports){
 exports.NeuralNetwork = require("./neuralnetwork").NeuralNetwork;
