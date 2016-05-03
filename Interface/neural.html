@@ -11,467 +11,499 @@
 </head>
 
 <body>
-</br>
-<div id="create" style="display:none">
-  <div id="file" class="form-group col-md-12">
-    <label class="text-center col-md-4 col-md-offset-4" for="fileInput">Add file or paste data set</label>
-    <label style="color:white">a</label>
-    <input id="fileInput" class="filestyle" data-classButton="btn btn-primary" type="file"> </input>
-  </div>
-  <div class="form-group col-md-12">
-    <textarea placeholder="Data Set input" class="form-control" rows="5"></textarea>
-  </div>
-
-  <div id="set_creation" class="container-fluid">
-    <div class="col-md-4">
-      <div class="input-group">
-        <span class="input-group-addon">Training Set Size:</span>
-        <input type="text" value="70" class="form-control" id="trSet">
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="input-group">
-        <span class="input-group-addon">Test Set Size:</span>
-        <input type="text" value="30" class="form-control" id="teSet">
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="input-group">
-        <span class="input-group-addon">Data Set delimiter</span>
-        <input id="delimiter" value=";" type="text" class="form-control">
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
   </br>
-  <button id="create_sets" class="btn btn-primary col-md-4 col-md-offset-4" type="button">Create Training and Test sets</button>
+  <div id="create" style="display:none">
+    <div id="file" class="form-group col-md-12">
+      <label class="text-center col-md-4 col-md-offset-4" for="fileInput">Add file or paste data set</label>
+      <label style="color:white">a</label>
+      <input id="fileInput" class="filestyle" data-classButton="btn btn-primary" type="file"> </input>
+    </div>
+    <div class="form-group col-md-12">
+      <textarea placeholder="Data Set input" class="form-control" rows="5"></textarea>
+    </div>
 
-  <script>
-  //Taken from: http://stackoverflow.com/a/2450976
-  function shuffle(array) {
-    var currentIndex = array.length,
-    temporaryValue, randomIndex;
+    <div id="set_creation" class="container-fluid">
+      <div class="col-md-4">
+        <div class="input-group">
+          <span class="input-group-addon">Training Set Size:</span>
+          <input type="text" value="70" class="form-control" id="trSet">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="input-group">
+          <span class="input-group-addon">Test Set Size:</span>
+          <input type="text" value="30" class="form-control" id="teSet">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="input-group">
+          <span class="input-group-addon">Data Set delimiter</span>
+          <input id="delimiter" value=";" type="text" class="form-control">
+        </div>
+      </div>
+    </div>
 
-    // While there remain elements to shuffle...
-    while (0 !== currentIndex) {
+    <div class="row">
+      </br>
+      <button id="create_sets" class="btn btn-primary col-md-4 col-md-offset-4" type="button">Create Training and Test sets</button>
 
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
+      <script>
+        //Taken from: http://stackoverflow.com/a/2450976
+        function shuffle(array) {
+          var currentIndex = array.length,
+            temporaryValue, randomIndex;
 
-      // And swap it with the current element.
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue;
-    }
+          // While there remain elements to shuffle...
+          while (0 !== currentIndex) {
 
-    return array;
-  }
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
 
-
-  var test_set = [],
-  train_set = [],
-  data_attr = [],
-  node_attr = [];
-  var attr_count = [];
-  //used to give numeric values to string attributes
-  var data_attr_range = [];
-
-  function fillSet(set, set_size, start_index, delimiter, lines) {
-    for (var i = start_index; i < set_size + start_index; i++) {
-      var line = lines[i].split(delimiter);
-      set[i - start_index] = [];
-      for (var j = 0; j < line.length; j++) {
-        if (data_attr_range[data_attr[j]]['max'] != null) {
-          set[i - start_index][data_attr[j]] = (line[j] - data_attr_range[data_attr[j]]['min']) / (data_attr_range[data_attr[j]]['max'] - data_attr_range[data_attr[j]]['min']);
-        } else {
-          set[i - start_index][data_attr[j]] = data_attr_range[data_attr[j]][line[j]];
-        }
-      }
-    }
-
-    return set;
-  }
-
-  function parseData() {
-    var lines = $("#create textarea").val().replace(/"/g, "").split('\n');
-    var delimiter = $("#delimiter").val();
-
-    if (lines.length <= 2) {
-      return "Not enough information to create sets";
-    }
-
-    data_attr = lines[0].split(delimiter);
-    lines.splice(0, 1);
-    lines = shuffle(lines);
-
-    for (var i = 0; i < data_attr.length; i++) {
-      attr_count[data_attr[i]] = [];
-      if (i == data_attr.length - 1) {
-        node_attr[data_attr[i]] = 1;
-      } else {
-        node_attr[data_attr[i]] = 0;
-      }
-    }
-
-
-    var train_set_size = parseInt($("#trSet").val());
-    var test_set_size = parseInt($("#teSet").val());
-
-    if (train_set_size + test_set_size != 100) {
-      return "Training Set Size + Test Set Size = 100";
-    }
-
-    train_set_size = Math.floor(train_set_size / 100 * lines.length);
-    test_set_size = Math.floor(test_set_size / 100 * lines.length);
-
-    if (train_set_size + test_set_size != lines.length) {
-      train_set_size += 1;
-    }
-
-    for (var i = 0; i < lines.length; i++) {
-      var line = lines[i].split(delimiter);
-      if (line.length == data_attr.length) {
-        for (var j = 0; j < line.length; j++) {
-          if (attr_count[data_attr[j]][line[j]] == null) {
-            attr_count[data_attr[j]][line[j]] = true;
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
           }
-        }
-      }
-    }
 
-    for (var i = 0; i < data_attr.length; i++) {
-      data_attr_range[data_attr[i]] = [];
-      //max is for numeric values, to hold the max value for that attribute
-      //length is used for string values, to know how many different values the attribute has
-      Object.keys(attr_count[data_attr[i]]).forEach(function(key, index) {
-        if ($.isNumeric(key)) {
-          if (data_attr_range[data_attr[i]]['max'] == null) {
-            data_attr_range[data_attr[i]]['max'] = parseInt(key);
-          } else {
-            if (parseInt(key) > data_attr_range[data_attr[i]]['max']) {
-              data_attr_range[data_attr[i]]['max'] = parseInt(key);
+          return array;
+        }
+
+
+        var test_set = [],
+          train_set = [],
+          data_attr = [],
+          node_attr = [];
+        var attr_count = [];
+        //used to give numeric values to string attributes
+        var data_attr_range = [];
+
+        function fillSet(set, set_size, start_index, delimiter, lines) {
+          for (var i = start_index; i < set_size + start_index; i++) {
+            var line = lines[i].split(delimiter);
+            set[i - start_index] = [];
+            for (var j = 0; j < line.length; j++) {
+              if (data_attr_range[data_attr[j]]['max'] != null) {
+                set[i - start_index][data_attr[j]] = (line[j] - data_attr_range[data_attr[j]]['min']) / (data_attr_range[data_attr[j]]['max'] - data_attr_range[data_attr[j]]['min']);
+              } else {
+                set[i - start_index][data_attr[j]] = data_attr_range[data_attr[j]][line[j]];
+              }
             }
           }
-          if (data_attr_range[data_attr[i]]['min'] == null) {
-            data_attr_range[data_attr[i]]['min'] = parseInt(key);
-          } else {
-            if (parseInt(key) < data_attr_range[data_attr[i]]['min']) {
-              data_attr_range[data_attr[i]]['min'] = parseInt(key);
-            }
+
+          return set;
+        }
+
+        function parseData() {
+          var lines = $("#create textarea").val().replace(/"/g, "").split('\n');
+          var delimiter = $("#delimiter").val();
+
+          if (lines.length <= 2) {
+            return "Not enough information to create sets";
           }
-        } else {
-          if (data_attr_range[data_attr[i]][key] == null) {
-            if (Object.keys(attr_count[data_attr[i]]).length == 1) {
-              data_attr_range[data_attr[i]][key] = 1;
+
+          data_attr = lines[0].split(delimiter);
+          lines.splice(0, 1);
+          lines = shuffle(lines);
+
+          for (var i = 0; i < data_attr.length; i++) {
+            attr_count[data_attr[i]] = [];
+            if (i == data_attr.length - 1) {
+              node_attr[data_attr[i]] = 1;
             } else {
-              data_attr_range[data_attr[i]][key] = Object.keys(data_attr_range[data_attr[i]]).length / (Object.keys(attr_count[data_attr[i]]).length - 1.0);
+              node_attr[data_attr[i]] = 0;
             }
           }
+
+
+          var train_set_size = parseInt($("#trSet").val());
+          var test_set_size = parseInt($("#teSet").val());
+
+          if (train_set_size + test_set_size != 100) {
+            return "Training Set Size + Test Set Size = 100";
+          }
+
+          train_set_size = Math.floor(train_set_size / 100 * lines.length);
+          test_set_size = Math.floor(test_set_size / 100 * lines.length);
+
+          if (train_set_size + test_set_size != lines.length) {
+            train_set_size += 1;
+          }
+
+          for (var i = 0; i < lines.length; i++) {
+            var line = lines[i].split(delimiter);
+            if (line.length == data_attr.length) {
+              for (var j = 0; j < line.length; j++) {
+                if (attr_count[data_attr[j]][line[j]] == null) {
+                  attr_count[data_attr[j]][line[j]] = true;
+                }
+              }
+            }
+          }
+
+          for (var i = 0; i < data_attr.length; i++) {
+            data_attr_range[data_attr[i]] = [];
+            //max is for numeric values, to hold the max value for that attribute
+            //length is used for string values, to know how many different values the attribute has
+            Object.keys(attr_count[data_attr[i]]).forEach(function(key, index) {
+              if ($.isNumeric(key)) {
+                if (data_attr_range[data_attr[i]]['max'] == null) {
+                  data_attr_range[data_attr[i]]['max'] = parseInt(key);
+                } else {
+                  if (parseInt(key) > data_attr_range[data_attr[i]]['max']) {
+                    data_attr_range[data_attr[i]]['max'] = parseInt(key);
+                  }
+                }
+                if (data_attr_range[data_attr[i]]['min'] == null) {
+                  data_attr_range[data_attr[i]]['min'] = parseInt(key);
+                } else {
+                  if (parseInt(key) < data_attr_range[data_attr[i]]['min']) {
+                    data_attr_range[data_attr[i]]['min'] = parseInt(key);
+                  }
+                }
+              } else {
+                if (data_attr_range[data_attr[i]][key] == null) {
+                  if (Object.keys(attr_count[data_attr[i]]).length == 1) {
+                    data_attr_range[data_attr[i]][key] = 1;
+                  } else {
+                    data_attr_range[data_attr[i]][key] = Object.keys(data_attr_range[data_attr[i]]).length / (Object.keys(attr_count[data_attr[i]]).length - 1.0);
+                  }
+                }
+              }
+            })
+          }
+
+
+          fillSet(train_set, train_set_size, 0, delimiter, lines);
+          fillSet(test_set, test_set_size, train_set_size, delimiter, lines);
+
+          return false;
         }
-      })
-    }
 
 
-    fillSet(train_set, train_set_size, 0, delimiter, lines);
-    fillSet(test_set, test_set_size, train_set_size, delimiter, lines);
+        $(document).ready(function() {
+          $("#create_sets").click(function() {
+            var ret = parseData();
+            if (ret) {
+              show_error($("#set_creation"), ret);
+            } else {
+              $("#create").slideToggle('fast');
+              construct_table();
+            }
+          })
+        })
+      </script>
+    </div>
 
-    return false;
-  }
-
-
-  $(document).ready(function() {
-    $("#create_sets").click(function() {
-      var ret = parseData();
-      if (ret) {
-        show_error($("#set_creation"), ret);
-      } else {
-        $("#create").slideToggle('fast');
-        construct_table();
-      }
-    })
-  })
-  </script>
-</div>
-
-</div>
-
-<div id="add" style="display:none">
-  <div id="file" class="form-group col-md-12">
-    <label class="text-center col-md-4 col-md-offset-4" for="fileInput1">Add network file or paste network info</label>
-    <label style="color:white">a</label>
-    <input id="fileInput1" class="filestyle" data-classButton="btn btn-primary" type="file"> </input>
   </div>
-  <div class="form-group col-md-12">
-    <textarea placeholder="Data Set input" class="form-control" rows="5"></textarea>
+
+  <div id="add" style="display:none">
+    <div id="file" class="form-group col-md-12">
+      <label class="text-center col-md-4 col-md-offset-4" for="fileInput1">Add network file or paste network info</label>
+      <label style="color:white">a</label>
+      <input id="fileInput1" class="filestyle" data-classButton="btn btn-primary" type="file"> </input>
+    </div>
+    <div class="form-group col-md-12">
+      <textarea placeholder="Data Set input" class="form-control" rows="5"></textarea>
+    </div>
+    <button id="load" class="btn btn-primary col-md-4 col-md-offset-4" type="button">Load network</button>
   </div>
-  <button id="load" class="btn btn-primary col-md-4 col-md-offset-4" type="button">Load network</button>
-</div>
-
-</br>
-
-<div id="create_add" class="container container-table">
-  <button class="btn btn-primary col-md-4 col-md-offset-1" type="button">Add Data set</button>
-  <button class="btn btn-primary col-md-4 col-md-offset-2" type="button">Load Network</button>
-
-  <script>
-  $(document).ready(function() {
-    $($("#create_add button")[0]).click(function() {
-      $("#create").slideToggle('fast');
-      $("#create_add").slideToggle('fast');
-    })
-
-    $($("#create_add button")[1]).click(function() {
-      $("#add").slideToggle('fast');
-      $("#create_add").slideToggle('fast');
-    })
-  })
-  </script>
-</div>
-
-</br>
-</br>
-
-<script>
-fr = new FileReader();
-
-setSizes = function(clicked, other) {
-  if (isNaN(clicked.val()) || clicked.val() < 0 || clicked.val() > 100) {
-    show_error($("#set_creation"), 'Training Set Size + Test Set Size = 100');
-  } else {
-    other.val(100 - clicked.val());
-  }
-}
-
-$(document).ready(function() {
-  $("#trSet").keyup(function() {
-    setSizes($("#trSet"), $("#teSet"));
-  })
-  $("#teSet").keyup(function() {
-    setSizes($("#teSet"), $("#trSet"));
-  })
-
-  $("input[type='file']").change(function() {
-    var input = $(this);
-    fr.onload = function() {
-      input.parent().parent().find("textarea").val(fr.result);
-    }
-    fr.readAsText($(this)[0].files[0])
-  })
-})
-</script>
-
-
-
-
-<div class="container">
-  <div id="options" style="display:none">
-    <button id="toggle_types" class="col-md-3 btn btn-primary">Set up node types</button>
-    <button id="toggle_layers" class="col-md-4 col-md-offset-1 btn btn-primary">Set up hidden layers</button>
-    <button id="toggle_options" class="col-md-3 col-md-offset-1 btn btn-primary">Set up training options</button>
-    <script>
-    var toggle_string = ["#node_options", "#hidden_layers", "#train_options"];
-    var toggled = [0, 0, 0];
-
-    function toggleOptionMenus(index) {
-      for (var i = 0; i < toggled.length; i++) {
-        if (i != index && toggled[i]) {
-          toggled[i] = 0;
-          $(toggle_string[i]).slideToggle('fast');
-        }
-      }
-      toggled[index] = !toggled[index];
-      $(toggle_string[index]).slideToggle('fast');
-    }
-
-    $("#toggle_types").click(function() {
-      toggleOptionMenus(0);
-    })
-    $("#toggle_layers").click(function() {
-      toggleOptionMenus(1);
-    })
-    $("#toggle_options").click(function() {
-      toggleOptionMenus(2);
-    })
-    </script>
 
   </br>
-</br>
 
-<table id="node_options" class="table table-responsive table-condensed" style="display:none">
-  <tbody>
-  </tbody>
-</table>
+  <div id="create_add" class="container container-table">
+    <button class="btn btn-primary col-md-4 col-md-offset-1" type="button">Add Data set</button>
+    <button class="btn btn-primary col-md-4 col-md-offset-2" type="button">Load Network</button>
 
-<div id="hidden_layers" style="display:none">
-  <div class="input-group">
-    <span class="input-group-addon">Number of hidden layers</span>
-    <input id="hidden_layers_num" value="1" type="text" class="form-control">
-  </div>
-</br>
-<div id="hidden_layer_list">
-  <div class="input-group">
-    <span class="input-group-addon">Node number hidden layer #1</span>
-    <input id="hidden_layer_0" value="1" type="text" class="form-control hidden-layer">
-  </div>
-</div>
-</div>
-
-<div id="train_options" style="display:none">
-  <div class="container">
-    <div class="panel panel-default">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="panel panel-default">
-            <div class="panel-heading">Error Threshold</div>
-            <input id="threshold" value="0.005" type="text" class="form-control">
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="panel panel-default">
-            <div class="panel-heading">Max Iterations</div>
-            <input id="iterations" value="20000" type="text" class="form-control">
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="panel panel-default">
-            <div class="panel-heading">Momentum</div>
-            <input id="momentum" value="0.8" type="text" class="form-control">
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="panel panel-default">
-            <div class="panel-heading">Learning Rate</div>
-            <input id="learning_rate" value="0.3" type="text" class="form-control">
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <script>
-  var threshold = 0.005;
-  var iterations = 20000;
-  var momentum = 0.8;
-  var learning_rate = 0.3;
-  $(document).ready(function(){
-    $("#threshold").keyup(function(){
-      threshold = $(this).val();
-    })
-    $("#iterations").keyup(function(){
-      iterations = $(this).val();
-    })
-    $("#momentum").keyup(function(){
-      momentum = $(this).val();
-    })
-    $("#learning_rate").keyup(function(){
-      learning_rate = $(this).val();
-    })
-  })
-  </script>
-</div>
-</br>
-<button id="create_train_test" class="col-md-5 btn btn-primary">Create, Train and Test </button>
-<script>
-$(document).ready(function(){
-  $("#create_train_test").click(function(){
-    var options = {};
-    options['errorThresh'] = threshold;
-    options['iterations'] = iterations;
-    options['learningRate'] = learning_rate;
-    options['momentum'] = momentum;
-    //options[log]
-    //options[logPeriod]
-    $(".train_stats").fadeToggle();
-    $(".train_stats").remove();
-    //train
-    var stats;
-    var start_time;
-    var avg_time = 0;
-    var avg_iterations = 0;
-    var avg_threshold = 0;
-    var number_trains = 10;
-    for(var i = 0; i < number_trains; i++){
-      createNetwork(hidden_layers);
-      start_time = new Date();
-      stats = trainNetwork(node_attr, train_set, options);
-      avg_time += new Date() - start_time;
-      avg_iterations += stats["iterations"];
-      avg_threshold += stats["error"];
-    }
-
-    avg_time /= (1.00 * number_trains);
-    avg_iterations /= (1.00 * number_trains);
-    avg_threshold /= (1.00 * number_trains);
-
-    var tr_iterations = "<tr><th>Number Iterations</th><td>"+Math.round(avg_iterations)+"</td></tr>";
-    var tr_threshold = "<tr><th>Error threshold</th><td>"+avg_threshold+"</td></tr>";
-    var tr_time = "<tr><th>Training time </th><td>"+ Math.round(avg_time) +"ms</td></tr>";
-    var stat_table = "<table class='table table-hover'>"+ tr_iterations + tr_threshold + tr_time + "</table>";
-    var stat_dom = "<div class='row train_stats'><h2>Train Statistics</h2> Average of " + number_trains + " different training sessions" +stat_table+"</div>";
-    $(".container").append(stat_dom);
-
-    $(".results").fadeToggle();
-    $(".results").remove();
-    //test
-    var test_results = testNetwork(node_attr, test_set);
-    console.log(test_results);
-    var results_aggr_table = "<table id='results_aggr_table' class='table table-hover'><thead><tr><th>Node</th><th>Max error</th><th>Min error</th><th>Average error</th></tr></thead><tbody></tbody></table>";
-    var results_dom = "<div class='row results'><h2>Test Results</h2>"+results_aggr_table+"</div>";
-    var max_error = [];
-    var min_error = [];
-    var avg_error = [];
-    Object.keys(node_attr).forEach(function (key){
-      if(node_attr[key] == 1){
-        max_error[key] = 0;
-        min_error[key] = 1;
-        avg_error[key] = 0;
-      }
-    })
-    $(".container").append(results_dom);
-    for(i=0;i<test_results.length;i++){
-      var expected_res = test_results[i]['expected'];
-      var net_res = test_results[i]['net_result'];
-        Object.keys(expected_res).forEach(function (key) {
-          var expected_value = expected_res[key];
-          var net_value = net_res[key];
-          var error = Math.abs(expected_value - net_value);
-          if(error > max_error[key]){
-            max_error[key] = error;
-          }
-          if(error < min_error[key]){
-            min_error[key] = error;
-          }
-          avg_error[key] += error;
-          if(i == test_results.length - 1){
-            avg_error[key] /= (1.00 * test_results.length);
-            $("#results_aggr_table > tbody").append("<tr><td>"+key+"</td><td>"+max_error[key]+"</td><td>"+min_error[key]+"</td><td>"+avg_error[key]+"</tr>");
-          }
+    <script>
+      $(document).ready(function() {
+        $($("#create_add button")[0]).click(function() {
+          $("#create").slideToggle('fast');
+          $("#create_add").slideToggle('fast');
         })
-    }
-  })
-})
-</script>
-<button id="save" class="col-md-5 col-md-offset-2 btn btn-primary">Save Network</button>
-<script>
-$(document).ready(function(){
-  $("#save").click(function(){
-    download();
-  })
-})
-</script>
-</div>
-</br>
-</br>
-</div>
 
-<div class="footer navbar-fixed-bottom text-center">
-  FEUP - IART - E5_1 - Gonçalo Lopes &amp Ivo Fernandes - 2015 / 2016
-</div>
-<script src="js/errors.js"></script>
-<script src="js/node_options.js"></script>
-<script src="js/download.js"></script>
-<script src="js/load.js"></script>
+        $($("#create_add button")[1]).click(function() {
+          $("#add").slideToggle('fast');
+          $("#create_add").slideToggle('fast');
+        })
+      })
+    </script>
+  </div>
+
+  </br>
+  </br>
+
+  <script>
+    fr = new FileReader();
+
+    setSizes = function(clicked, other) {
+      if (isNaN(clicked.val()) || clicked.val() < 0 || clicked.val() > 100) {
+        show_error($("#set_creation"), 'Training Set Size + Test Set Size = 100');
+      } else {
+        other.val(100 - clicked.val());
+      }
+    }
+
+    $(document).ready(function() {
+      $("#trSet").keyup(function() {
+        setSizes($("#trSet"), $("#teSet"));
+      })
+      $("#teSet").keyup(function() {
+        setSizes($("#teSet"), $("#trSet"));
+      })
+
+      $("input[type='file']").change(function() {
+        var input = $(this);
+        fr.onload = function() {
+          input.parent().parent().find("textarea").val(fr.result);
+        }
+        fr.readAsText($(this)[0].files[0])
+      })
+    })
+  </script>
+
+
+
+
+  <div class="container">
+    <div id="options" style="display:none">
+      <button id="toggle_types" class="col-md-3 btn btn-primary">Set up node types</button>
+      <button id="toggle_layers" class="col-md-4 col-md-offset-1 btn btn-primary">Set up hidden layers</button>
+      <button id="toggle_options" class="col-md-3 col-md-offset-1 btn btn-primary">Set up training options</button>
+      <script>
+        var toggle_string = ["#node_options", "#hidden_layers", "#train_options"];
+        var toggled = [0, 0, 0];
+
+        function toggleOptionMenus(index) {
+          for (var i = 0; i < toggled.length; i++) {
+            if (i != index && toggled[i]) {
+              toggled[i] = 0;
+              $(toggle_string[i]).slideToggle('fast');
+            }
+          }
+          toggled[index] = !toggled[index];
+          $(toggle_string[index]).slideToggle('fast');
+        }
+
+        $("#toggle_types").click(function() {
+          toggleOptionMenus(0);
+        })
+        $("#toggle_layers").click(function() {
+          toggleOptionMenus(1);
+        })
+        $("#toggle_options").click(function() {
+          toggleOptionMenus(2);
+        })
+      </script>
+
+      </br>
+      </br>
+
+      <table id="node_options" class="table table-responsive table-condensed" style="display:none">
+        <tbody>
+        </tbody>
+      </table>
+
+      <div id="hidden_layers" style="display:none">
+        <div class="input-group">
+          <span class="input-group-addon">Number of hidden layers</span>
+          <input id="hidden_layers_num" value="1" type="text" class="form-control">
+        </div>
+        </br>
+        <div id="hidden_layer_list">
+          <div class="input-group">
+            <span class="input-group-addon">Node number hidden layer #1</span>
+            <input id="hidden_layer_0" value="1" type="text" class="form-control hidden-layer">
+          </div>
+        </div>
+      </div>
+
+      <div id="train_options" style="display:none">
+        <div class="container">
+          <div class="panel panel-default">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="panel panel-default">
+                  <div class="panel-heading">Error Threshold</div>
+                  <input id="threshold" value="0.005" type="text" class="form-control">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="panel panel-default">
+                  <div class="panel-heading">Max Iterations</div>
+                  <input id="iterations" value="20000" type="text" class="form-control">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="panel panel-default">
+                  <div class="panel-heading">Momentum</div>
+                  <input id="momentum" value="0.8" type="text" class="form-control">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="panel panel-default">
+                  <div class="panel-heading">Learning Rate</div>
+                  <input id="learning_rate" value="0.3" type="text" class="form-control">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script>
+          var threshold = 0.005;
+          var iterations = 20000;
+          var momentum = 0.8;
+          var learning_rate = 0.3;
+          $(document).ready(function() {
+            $("#threshold").keyup(function() {
+              threshold = $(this).val();
+            })
+            $("#iterations").keyup(function() {
+              iterations = $(this).val();
+            })
+            $("#momentum").keyup(function() {
+              momentum = $(this).val();
+            })
+            $("#learning_rate").keyup(function() {
+              learning_rate = $(this).val();
+            })
+          })
+        </script>
+      </div>
+      </br>
+      <button id="create_train_test" class="col-md-5 btn btn-primary">Create, Train and Test </button>
+      <script>
+        $(document).ready(function() {
+          $("#create_train_test").click(function() {
+            var options = {};
+            options['errorThresh'] = threshold;
+            options['iterations'] = iterations;
+            options['learningRate'] = learning_rate;
+            options['momentum'] = momentum;
+            //options[log]
+            //options[logPeriod]
+            $(".train_stats").fadeToggle();
+            $(".train_stats").remove();
+            //train
+            var stats;
+            var start_time;
+            var avg_time = 0;
+            var avg_iterations = 0;
+            var avg_threshold = 0;
+            var number_trains = 50;
+            var max_error = [];
+            var min_error = [];
+            var avg_error = [];
+            Object.keys(node_attr).forEach(function(key) {
+              if (node_attr[key] == 1) {
+                max_error[key] = [];
+                min_error[key] = [];
+                avg_error[key] = [];
+              }
+            })
+            for (var i = 0; i < number_trains; i++) {
+              createNetwork(hidden_layers);
+              start_time = new Date();
+              stats = trainNetwork(node_attr, train_set, options);
+              avg_time += new Date() - start_time;
+              avg_iterations += stats["iterations"];
+              avg_threshold += stats["error"];
+              var test_results = testNetwork(node_attr, test_set);
+              for (j = 0; j < test_results.length; j++) {
+                var expected_res = test_results[j]['expected'];
+                var net_res = test_results[j]['net_result'];
+                Object.keys(expected_res).forEach(function(key) {
+                  if(!max_error[key][i]){
+                    max_error[key][i] = 0;
+                  }
+                  if(!min_error[key][i]){
+                    min_error[key][i] = 1;
+                  }
+                  if(!avg_error[key][i]){
+                    avg_error[key][i] = 0;
+                  }
+                  var expected_value = expected_res[key];
+                  var net_value = net_res[key];
+                  var error = Math.abs(expected_value - net_value);
+                  if (error > max_error[key][i]) {
+                    max_error[key][i] = error;
+                  }
+                  if (error < min_error[key][i]) {
+                    min_error[key][i] = error;
+                  }
+                  avg_error[key][i] += error;
+                  if (j == test_results.length - 1) {
+                    avg_error[key][i] /= (1.00 * test_results.length);
+                  }
+                })
+              }
+            }
+
+            avg_time /= (1.00 * number_trains);
+            avg_iterations /= (1.00 * number_trains);
+            avg_threshold /= (1.00 * number_trains);
+
+            var tr_iterations = "<tr><th>Number Iterations</th><td>" + Math.round(avg_iterations) + "</td></tr>";
+            var tr_threshold = "<tr><th>Error threshold</th><td>" + avg_threshold + "</td></tr>";
+            var tr_time = "<tr><th>Training time </th><td>" + Math.round(avg_time) + "ms</td></tr>";
+            var stat_table = "<table class='table table-hover'>" + tr_iterations + tr_threshold + tr_time + "</table>";
+            var stat_dom = "<div class='row train_stats'><h2>Train Statistics</h2> Average of " + number_trains + " different training and test sessions" + stat_table + "</div>";
+            $(".container").append(stat_dom);
+
+            $(".results").fadeToggle();
+            $(".results").remove();
+            //test
+
+            var results_aggr_table = "<table id='results_aggr_table' class='table table-hover'><thead><tr><th>Node</th><th>Max error</th><th>Min error</th><th>Average error</th></tr></thead><tbody></tbody></table>";
+            var results_dom = "<div class='row results'><h2>Test Results</h2> Average of " + number_trains + " different training and test sessions" + results_aggr_table + "</div>";
+            $(".container").append(results_dom);
+            var max_error_avg = [];
+            var min_error_avg = [];
+            var avg_error_avg = [];
+            for (var i = 0; i < number_trains; i++) {
+              Object.keys(max_error).forEach(function(key) {
+                if (i == 0) {
+                  max_error_avg[key] = 0;
+                  min_error_avg[key] = 0;
+                  avg_error_avg[key] = 0;
+                }
+                max_error_avg[key] += max_error[key][i];
+                min_error_avg[key] += min_error[key][i];
+                console.log(max_error)
+                console.log(min_error)
+                avg_error_avg[key] += avg_error[key][i];
+                if (i == number_trains - 1) {
+                  max_error_avg[key] /= (1.00 * test_results.length);
+                  min_error_avg[key] /= (1.00 * test_results.length);
+                  avg_error_avg[key] /= (1.00 * test_results.length);
+                  $("#results_aggr_table > tbody").append("<tr><td>" + key + "</td><td>" + max_error_avg[key] + "</td><td>" + min_error_avg[key] + "</td><td>" + avg_error_avg[key] + "</tr>");
+                }
+              })
+            }
+
+          })
+        })
+      </script>
+      <button id="save" class="col-md-5 col-md-offset-2 btn btn-primary">Save Network</button>
+      <script>
+        $(document).ready(function() {
+          $("#save").click(function() {
+            download();
+          })
+        })
+      </script>
+    </div>
+    </br>
+    </br>
+  </div>
+
+  <div class="footer navbar-fixed-bottom text-center">
+    FEUP - IART - E5_1 - Gonçalo Lopes &amp Ivo Fernandes - 2015 / 2016
+  </div>
+  <script src="js/errors.js"></script>
+  <script src="js/node_options.js"></script>
+  <script src="js/download.js"></script>
+  <script src="js/load.js"></script>
 </body>
