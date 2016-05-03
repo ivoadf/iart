@@ -384,15 +384,33 @@ $(document).ready(function(){
     options['momentum'] = momentum;
     //options[log]
     //options[logPeriod]
-    createNetwork(hidden_layers);
     $(".train_stats").fadeToggle();
     $(".train_stats").remove();
     //train
-    var stats = trainNetwork(node_attr,train_set,options);
-    var tr_iterations = "<tr><th>Number Iterations</th><td>"+stats["iterations"]+"</td></tr>";
-    var tr_threshold = "<tr><th>Error threshold</th><td>"+stats["error"]+"</td></tr>";
-    var stat_table = "<table class='table table-hover'>"+ tr_iterations + tr_threshold + "</table>";
-    var stat_dom = "<div class='row train_stats'><h2>Train Statistics</h2>"+stat_table+"</div>";
+    var stats;
+    var start_time;
+    var avg_time = 0;
+    var avg_iterations = 0;
+    var avg_threshold = 0;
+    var number_trains = 10;
+    for(var i = 0; i < number_trains; i++){
+      createNetwork(hidden_layers);
+      start_time = new Date();
+      stats = trainNetwork(node_attr, train_set, options);
+      avg_time += new Date() - start_time;
+      avg_iterations += stats["iterations"];
+      avg_threshold += stats["error"];
+    }
+
+    avg_time /= (1.00 * number_trains);
+    avg_iterations /= (1.00 * number_trains);
+    avg_threshold /= (1.00 * number_trains);
+
+    var tr_iterations = "<tr><th>Number Iterations</th><td>"+Math.round(avg_iterations)+"</td></tr>";
+    var tr_threshold = "<tr><th>Error threshold</th><td>"+avg_threshold+"</td></tr>";
+    var tr_time = "<tr><th>Training time </th><td>"+ Math.round(avg_time) +"ms</td></tr>";
+    var stat_table = "<table class='table table-hover'>"+ tr_iterations + tr_threshold + tr_time + "</table>";
+    var stat_dom = "<div class='row train_stats'><h2>Train Statistics</h2> Average of " + number_trains + " different training sessions" +stat_table+"</div>";
     $(".container").append(stat_dom);
 
     $(".results").fadeToggle();
@@ -400,21 +418,37 @@ $(document).ready(function(){
     //test
     var test_results = testNetwork(node_attr, test_set);
     console.log(test_results);
-    var results_table = "<table id='results_table' class='table table-hover'><thead><tr></tr></thead><tbody></tbody></table>";
-    var results_dom = "<div class='row results'><h2>Test Results</h2>"+results_table+"</div>";
+    var results_aggr_table = "<table id='results_aggr_table' class='table table-hover'><thead><tr><th>Node</th><th>Max error</th><th>Min error</th><th>Average error</th></tr></thead><tbody></tbody></table>";
+    var results_dom = "<div class='row results'><h2>Test Results</h2>"+results_aggr_table+"</div>";
+    var max_error = [];
+    var min_error = [];
+    var avg_error = [];
+    Object.keys(node_attr).forEach(function (key){
+      if(node_attr[key] == 1){
+        max_error[key] = 0;
+        min_error[key] = 1;
+        avg_error[key] = 0;
+      }
+    })
     $(".container").append(results_dom);
     for(i=0;i<test_results.length;i++){
-      $("#results_table > tbody").append("<tr></tr>");
       var expected_res = test_results[i]['expected'];
       var net_res = test_results[i]['net_result'];
         Object.keys(expected_res).forEach(function (key) {
           var expected_value = expected_res[key];
           var net_value = net_res[key];
-          if(i==0){
-            $("#results_table > thead > tr:first-child").append("<th>Expected "+key+"</th>");
-            $("#results_table > thead > tr:first-child").append("<th>Obtained "+key+"</th>");
+          var error = Math.abs(expected_value - net_value);
+          if(error > max_error[key]){
+            max_error[key] = error;
           }
-          $("#results_table > tbody > tr:last-child").append("<td>"+expected_value+"</td><td>"+net_value+"</td>");
+          if(error < min_error[key]){
+            min_error[key] = error;
+          }
+          avg_error[key] += error;
+          if(i == test_results.length - 1){
+            avg_error[key] /= (1.00 * test_results.length);
+            $("#results_aggr_table > tbody").append("<tr><td>"+key+"</td><td>"+max_error[key]+"</td><td>"+min_error[key]+"</td><td>"+avg_error[key]+"</tr>");
+          }
         })
     }
   })
@@ -429,6 +463,8 @@ $(document).ready(function(){
 })
 </script>
 </div>
+</br>
+</br>
 </div>
 
 <div class="footer navbar-fixed-bottom text-center">

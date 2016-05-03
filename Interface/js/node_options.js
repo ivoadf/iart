@@ -30,7 +30,7 @@ function construct_table() {
   var classes = ['info', 'danger', 'active'];
 
   $("tr td input").change(function() {
-    node_attr[$(this).parents("tr").children("td").html()] = this.value;
+    node_attr[$(this).parents("tr").children("td").html()] = parseInt(this.value);
     for(var i = 0; i < classes.length; i++){
       if($(this).parents("tr").hasClass(classes[i])){
         $(this).parents("tr").toggleClass(classes[i]);
