@@ -392,15 +392,19 @@
             var avg_time = 0;
             var avg_iterations = 0;
             var avg_threshold = 0;
-            var number_trains = 50;
+            var number_trains = 30;
             var max_error = [];
             var min_error = [];
             var avg_error = [];
+            var nodes = "_";
             Object.keys(node_attr).forEach(function(key) {
               if (node_attr[key] == 1) {
                 max_error[key] = [];
                 min_error[key] = [];
                 avg_error[key] = [];
+              }
+              if (node_attr[key] == 2){
+                nodes += key + "_";
               }
             })
             for (var i = 0; i < number_trains; i++) {
@@ -482,7 +486,7 @@
                 }
               })
             }
-
+            window.prompt("Copy to clipboard: Ctrl+C, Enter", nodes + ";{" + hidden_layers + "};" + iterations + ";" + threshold + ";" + Math.round(avg_iterations) + ";" + Math.round(avg_time) + "ms;" + avg_threshold + ";" + max_error_avg['G3'] + ";" + min_error_avg['G3'] + ";" + avg_error_avg['G3']);
           })
         })
       </script>

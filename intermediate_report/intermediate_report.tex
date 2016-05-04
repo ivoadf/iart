@@ -153,21 +153,37 @@ The network's learn rate and momentum may also be adjusted. We already discussed
 \hfill \break
 \hfill \break
 We can also adjust the error threshold to be achieved, which means that when the back-propagation calculated error is below the threshold, the training of the network stops.
-\subsection{Work Done}
-From the project \hyperref[sec:phases]{phases} section, we already concluded the first 4 items:
-
-\begin{enumerate}
-\item Understand the structure of a neural network
-\item Understand the mechanism of the back-propagation algorithm
-\item Choose a back-propagation framework and learn it
-\item Learn how to train neural networks
-\end{enumerate}
-
-The rest of the work will lead to the conclusion of the project.
 \subsection{Expected Results and Tests}
 From training different networks, and fiddling with the attributes referenced in the \hyperref[sec:training]{training} section, we expect to see different training times and network accuracies. 
 
 We are unable to set an accuracy goal for our final network, but we hope to see a noticeable increase when comparing our final network to our first.
+\section{Development}
+The project is being developed on Debian "Jessie".
+
+We are using \href{https://github.com/harthur/brain}{\textbf{BrainJS}}, as our neural network framework.
+
+Since we are using a Javascript framework, we decided to create a web interface, using HTML, CSS and Javascript, that allows us to change training options, create, save and load data sets  and train networks, automatically calculating:
+\begin{itemize}
+\item Number of iterations
+\item Error threshold achieved in training
+\item Training time
+\item Max error
+\item Min error
+\item Average error
+\end{itemize}
+
+The implementation allows us to feed in a data-set, which creates the Training and Test Set according to the inputed sizes. 
+
+For this project we will be analysing two different data sets, the portuguese and math sets. Since the students in each data set are different, the sets must be handled separately. We will only create one training and test set for each data set, in order to use the same sets for all the experiments. The Training Sets are 70\% of the data set and the Test Sets the remaining 30\%. 
+
+As for running experiments, we run the training and test process 30 times, which means all the values referenced above, are the average of those values for 30 training and test sessions.
+
+On the created web interface, we are also allowed to manipulate the number of hidden layers and hidden nodes, and input and output nodes. This way we can easily remove some nodes from the neural network and perform experiments.
+
+\section{Experiments}
+\subsection{Math}
+
+\subsection{Portuguese}
 \section{Conclusions}
 So far we have learned how a neural network is structured, how the back-propagation algorithm works and how to differently train networks in order to achieve different results.
 
@@ -194,4 +210,35 @@ Learning this subject was fun because of how easy it is to be impressed by machi
 
 To train the network, we will use the javascript framework \href{https://github.com/harthur/brain}{\textbf{BrainJS}}, an open source implementation of a neural network, using the back-propagation algorithm, implemented using the basic sigmoid function.
 
+
+\section{Appendix}
+In this section we present the different interface menus.
+
+\begin{figure}[H]
+\label{fig:example}
+\includegraphics[scale=0.3]{interface0.png}
+\centering
+\caption{User can either create network from data set or load existing network.}
+\end{figure}
+
+\begin{figure}[H]
+\label{fig:example}
+\includegraphics[scale=0.3]{interface1.png}
+\centering
+\caption{Create network interface.}
+\end{figure}
+
+\begin{figure}[H]
+\label{fig:example}
+\includegraphics[scale=0.3]{interface2.png}
+\centering
+\caption{Train and test results and training options.}
+\end{figure}
+
+\begin{figure}[H]
+\label{fig:example}
+\includegraphics[scale=0.3]{interface3.png}
+\centering
+\caption{Load network interface.}
+\end{figure}
 \end{document}
