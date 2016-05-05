@@ -396,6 +396,7 @@
             var max_error = [];
             var min_error = [];
             var avg_error = [];
+            var round_error = [];
             var nodes = "_";
             Object.keys(node_attr).forEach(function(key) {
               if (node_attr[key] == 1) {
@@ -486,7 +487,7 @@
                 }
               })
             }
-            window.prompt("Copy to clipboard: Ctrl+C, Enter", nodes + ";{" + hidden_layers + "};" + iterations + ";" + threshold + ";" + Math.round(avg_iterations) + ";" + Math.round(avg_time) + "ms;" + avg_threshold + ";" + max_error_avg['G3'] + ";" + min_error_avg['G3'] + ";" + avg_error_avg['G3']);
+            window.prompt("Copy to clipboard: Ctrl+C, Enter", nodes + ";{" + hidden_layers + "};" + iterations + ";" + threshold + ";" + momentum + ";" + learning_rate + ";" + Math.round(avg_iterations) + ";" + Math.round(avg_time) + "ms;" + avg_threshold + ";" + max_error_avg['G3'] + ";" + min_error_avg['G3'] + ";" + avg_error_avg['G3']);
           })
         })
       </script>
