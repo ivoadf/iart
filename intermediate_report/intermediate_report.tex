@@ -5,9 +5,10 @@
 \usepackage{hyperref}
 \usepackage{mathtools}
 \usepackage{float}
+\usepackage[margin=0.5in]{geometry}
 
 \begin{document}
-\setlength{\textwidth}{16cm}
+\setlength{\textwidth}{20cm}
 \setlength{\textheight}{22cm}
 \title{\Huge\textbf{Neural Networks}\linebreak \small{Predicting student performance} \linebreak\linebreak
 \Large\textbf{Intermediate Report}\linebreak\linebreak
@@ -157,31 +158,149 @@ We can also adjust the error threshold to be achieved, which means that when the
 From training different networks, and fiddling with the attributes referenced in the \hyperref[sec:training]{training} section, we expect to see different training times and network accuracies. 
 
 We are unable to set an accuracy goal for our final network, but we hope to see a noticeable increase when comparing our final network to our first.
+
+\newpage
 \section{Development}
 The project is being developed on Debian "Jessie".
 
 We are using \href{https://github.com/harthur/brain}{\textbf{BrainJS}}, as our neural network framework.
 
 Since we are using a Javascript framework, we decided to create a web interface, using HTML, CSS and Javascript, that allows us to change training options, create, save and load data sets  and train networks, automatically calculating:
+
 \begin{itemize}
 \item Number of iterations
 \item Error threshold achieved in training
 \item Training time
-\item Max error
-\item Min error
-\item Average error
+\item Pass course accuracy
+\item Final grade accuracy
 \end{itemize}
 
+\textbf{Pass course accuracy} is defined by the network's ability to predict if a student will pass or fail the course. While testing, the network compares to expected grade to the predicted grade, after rounding the predicted grade. If both grades are greater or equal to 10, or both are lower than 10, it's a \textbf{yes} for the \textbf{Pass course accuracy}, otherwhise, it's a \textbf{no}.
+
+\textbf{Final grade accuracy} is defined by the network's ability to predict a student's final grade. While testing, the network compares to expected grade to the predicted grade, after rounding the predicted grade. If both grades are equal, then it's a \textbf{yes} for the \textbf{Final grade accuracy}, otherwhise, it's a \textbf{no}.
+\hfill \break
+\hfill \break
 The implementation allows us to feed in a data-set, which creates the Training and Test Set according to the inputed sizes. 
 
 For this project we will be analysing two different data sets, the portuguese and math sets. Since the students in each data set are different, the sets must be handled separately. We will only create one training and test set for each data set, in order to use the same sets for all the experiments. The Training Sets are 70\% of the data set and the Test Sets the remaining 30\%. 
 
-As for running experiments, we run the training and test process 30 times, which means all the values referenced above, are the average of those values for 30 training and test sessions.
-
 On the created web interface, we are also allowed to manipulate the number of hidden layers and hidden nodes, and input and output nodes. This way we can easily remove some nodes from the neural network and perform experiments.
 
 \section{Experiments}
+In this section, we will perform all the experiments and discuss the results.
+
+When specifying the number of hidden layers and hidden nodes used, the following representation is used:
+\textit{\{nodes\_First\_layer, nodes\_Second\_layer, ...., nodes\_N\_layer\}}
+
+The removed column on the tables specifies the input nodes that were removed for that execution.
+
+Since the used framework is based on Javascript, training times will be higher than if a Java or C++ framework was used. However, iteration growth will be the same. We will only present the number of iterations for each train+test, not specifying the time. The time may also vary from what other work the browser is doing, which means it would not be a meaningful metric.
+
+The training and test sets are obtained only once for each data-set. These sets are obtained after shuffling the data-set, in order to achieve plausible results. If the data-set was not shuffled, the train set might contain very similar instances, and all of them very different from the instances on the test set, which would lead to bad accuracy. 
+
+Since the data-set is only shuffled once to create the training and test set. Maybe the resulting shuffle is a bad one, this means that all following experiments will have either all higher or all lower results on experiments, however, the difference between experiments will still be noticeable. Nonetheless, this wouldn't happen if the original data-set was large and representative enough. Which does not happen because the data-sets have less than 400 instances, for what is a complicated problem.
+
+The training set is also shuffled between each training iteration.
+
+\subsection{The quitters}
+A quitter is a student who either failed the course due to too many absences, or decided to drop out. This means the quitter will have a G3 of 0. 
+
+We will use the Math dataset for this experiment, the same result is expected from the Portuguese dataset.
+
+Using the \textbf{default data-set:} 
+
+\begin{tabular}{| c | c | c | c | c | c | c | c |}
+\hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
+\hline 0.005 & \{1\} & 0.3 & 0.8 & \_ & 260 & 90\% & 64\%\\
+\hline 0.0005 & \{1\} & 0.3 & 0.8 & \_ & 1693 & 80\% & 41\%\\
+\hline 0.0005 & \{1\} & 0.2 & 0.9 & \_ & 2380 & 81\% & 49\%\\
+\hline 0.0005 & \{5\} & 0.2 & 0.9 & \_ & 2519 & 82\% & 46\%\\
+\hline 0.0005 & \{10,5\} & 0.2 & 0.9 & \_ & 2457 & 81\% & 40\%\\
+\hline
+\end{tabular}
+
+\hfill \break
+\hfill \break
+Using the \textbf{no-quitters data-set:} 
+
+\begin{tabular}{| c | c | c | c | c | c | c | c |}
+\hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
+\hline 0.005 & \{1\} & 0.3 & 0.8 & \_ & 19 & 91\% & 70\%\\
+\hline 0.0005 & \{1\} & 0.3 & 0.8 & \_ & 1666 & 89\% & 64\%\\
+\hline 0.0005 & \{1\} & 0.2 & 0.9 & \_ & 1987 & 86\% & 59\%\\
+\hline 0.0005 & \{5\} & 0.2 & 0.9 & \_ & 2218 & 92\% & 63\%\\
+\hline 0.0005 & \{10,5\} & 0.2 & 0.9 & \_ & 2057 & 93\% & 62\%\\
+\hline
+\end{tabular}
+
+\hfill \break
+\hfill \break
+
+For the default set, with the default min threshold, the pass accuracy is the same as for the no-quitters set. After lowering the min threshold 10 times, the pass accuracy stays the same for the no-quitters set but drops almost 10\% on all the following experiments for the default set. As for the grade accuracy, it drops an average of 7\% for the no-quitters set and an average of 20\% for the default set. This is due to overfitting, and this is why the experiments included lowering the learning rate and momentum and changing hidden layers. However, the obtained results were not much different.
+\hfill \break
+\hfill \break
+\textit{Why do both sets suffer from overfitting?} 
+
+This happens because, as already referenced, the datasets are small and not very representative. 
+
+\hfill \break
+\hfill \break
+\textit{Why does grade accuracy drop more on the default set than pass accuracy, when compared to the value changes for the no-quitters set?}
+
+Because when a student has a 0, and the network calculates for example a 5 for that student, even though the grade error is large, the pass result is still the same. 
+
+\begin{figure}[H]
+\label{fig:Pass vs Grade}
+\includegraphics[scale=0.6]{passgrade.png}
+\centering
+\caption{Pass vs Grade accuracy (default)}
+\end{figure}
+
+The pass accuracy only fails when the expected and obtained values are on different sides of the pass line. This did not happen for any of the quitters. 
+
+\begin{figure}[H]
+\label{fig:Pass vs Grade}
+\includegraphics[scale=0.6]{passgradenoquit.png}
+\centering
+\caption{Pass vs Grade accuracy (no-quitters)}
+\end{figure}
+
+\textit{Why does the default set have worse results than the no-quitters set?}
+
+Because there is more overfitting on the default set, due to quitters. A quitter might have the same input values as someone who passed the course, but because of quitting, the result is 0. This leads to the network giving lower grades to students that did not quit.
+
+When comparing both graphs, we can clearly see the default network overfitting students and giving them a lower grade, while also giving quitters a higher grade than 0.
+
+\hfill \break
+\hfill \break
+\textbf{Conclusion:}
+
+The following experiments will all be done on the no-quitters data-set.
+
+\subsection{G1 and G2}
+We expect G1 and G2 to be have a very strong influence on the result of G3, so we will test that.
+\hfill \break
+\hfill \break
+\begin{tabular}{| c | c | c | c | c | c | c | c |}
+\hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
+\hline 0.005 & \{1\} & 0.3 & 0.8 & \_ & 19 & 91\% & 70\%\\
+\hline 0.005 & \{1\} & 0.3 & 0.8 & \_G1\_G2\_ & 467 & 59\% & 24\%\\
+\hline 0.005 & \{1\} & 0.3 & 0.8 & \_G2\_ & 276 & 90\% & 45\%\\
+\hline 0.005 & \{1\} & 0.3 & 0.8 & \_G1\_ & 21 & 89\% & 70\%\\
+\hline
+\end{tabular}
+
+When removing both G1 and G2, pass accuracy drops 1/3 and the grade accuracy drops 2/3. As expected, the grade accuracy always drops more than the pass accuracy.
+\hfill \break
+\hfill \break
+When removing either G1 or G2, the pass accuracy stays more or less the same. This happens because knowing a student's grades on G1 or G2 has a high impact on predicting if the student will pass or not. 
+\hfill \break
+\hfill \break
+When removing G1, the grade accuracy is almost half of when removing G2. This is because the G2 grade is a lot closer to the G3 grade than the G1. The value of G2 is depends on the value of G1, so, having G2 and not having G1 means that G1 still has some effect on the result.
+
+
 \subsection{Math}
+
 
 \subsection{Portuguese}
 \section{Conclusions}
@@ -210,7 +329,7 @@ Learning this subject was fun because of how easy it is to be impressed by machi
 
 To train the network, we will use the javascript framework \href{https://github.com/harthur/brain}{\textbf{BrainJS}}, an open source implementation of a neural network, using the back-propagation algorithm, implemented using the basic sigmoid function.
 
-
+\newpage
 \section{Appendix}
 In this section we present the different interface menus.
 
