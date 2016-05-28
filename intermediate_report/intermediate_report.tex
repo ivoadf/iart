@@ -347,7 +347,7 @@ Before testing, we expect inputs like \textit{sex, age, address, health} to not 
 
 The health input, according to the dataset, was the student's health status, at the moment of answering the questions, this means that the health value may not have had an impact on the grades, throughout the year, because the student's health status may have changed after the end of the school year.
 
-As expected, none of these inputs do not help the network.
+As expected, none of these inputs help the network.
 \hfill \break
 \hfill \break
 
@@ -443,30 +443,57 @@ On this experiment, removing the study\_time did not affect our network like it 
 \caption{Grade Distribution for Portuguese}
 \end{figure}
 \subsubsection{Parameter Values}
-
-\paragraph{Experiments}
-\paragraph{Results}
-\subsubsection{Neural Net Structure}
-\paragraph{Experiments}
-\paragraph{Results}
-\subsubsection{Deprecated Inputs}
+\begin{table}[h]
 
 \begin{tabular}{| c | c | c | c | p{3cm} | c | c | c |}
 \hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
 \hline 0.025 & \{15,10\} & 0.3 & 0.8 & \_G1 \_G2 \_ & 1 & 87\% & 36\%\\
 \hline 0.020 & \{15,10\} & 0.3 & 0.8 & \_G1 \_G2 \_ & 6 & 87\% & 36\%\\
 \hline 0.015 & \{15,10\} & 0.3 & 0.8 & \_G1 \_G2 \_ & 17 & 86\% & 39\%\\
-\hline 0.01 & \{15,10\} & 0.3 & 0.8 & \_G1 \_G2 \_ & 263 & 86\% & 39\%\\
+\hline 0.01 & \{15,10\} & 0.3 & 0.8 & \_G1 \_G2 \_ & 300 & 88\% & 42\%\\
 \hline 0.005 & \{15,10\} & 0.3 & 0.8 & \_G1 \_G2 \_ & 650 & 86\% & 37\%\\
 \hline 0.0009 & \{15,10\} & 0.3 & 0.8 & \_G1 \_G2 \_ & 2182 & 79\% & 32\%\\
 \hline
 \end{tabular}
+\caption{Error Threshold Analysis}
+\end{table}
+
+\paragraph{Results}
+Analysing the table above we can conclude that the best error threshold is 0.01 and for thresholds lower than 0.01 over-fitting effects start to appear.
+\subsubsection{Neural Net Structure}
+\begin{table}[h]
+\begin{tabular}{| c | c | c | c | p{3cm} | c | c | c |}
+\hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
+\hline 0.01 & \{1\} & 0.3 & 0.8 & \_G1 \_G2 \_ & 263 & 86\% & 42\%\\
+\hline 0.01 & \{15\} & 0.3 & 0.8 & \_G1 \_G2 \_ & 243 & 87\% & 40\%\\
+\hline 0.01 & \{15,10\} & 0.3 & 0.8 & \_G1 \_G2 \_ & 294 & 89\% & 42\%\\
+\hline 0.01 & \{15,10,5\} & 0.3 & 0.8 & \_G1 \_G2 \_ & 306 & 87\% & 42\%\\
+\hline
+\end{tabular}
+\caption{Net Structure Analysis Analysis}
+\end{table}
+\paragraph{Results}
+After experiments with different net structures we can observe that both the \textit{PassAcc} and \textit{GradeAcc} have no major change, leading us to believe that only one hidden layer with 1 node is sufficient for the network to be as accurate as it can be with the data set provided.
+
+\subsubsection{Deprecated Inputs}
+\begin{table}[h]
+\begin{tabular}{| c | c | c | c | p{3cm} | c | c | c |}
+\hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
+\hline 0.01 & \{1\} & 0.3 & 0.8 & \_G1 \_G2 \_ & 263 & 86\% & 41\%\\
+\hline 0.01 & \{1\} & 0.3 & 0.8 & \_sex \_age \_address \_health \_G1 \_G2 \_ & 374 & 87\% & 42\%\\
+\hline
+\end{tabular}
+\caption{Deprecated Inputs Analysis Analysis}
+\end{table}
+
+Following our analysis for the Maths data set we expect that the inputs \textit{sex}, \textit{age}, \textit{address}, \textit{health} to not influence the neural net accuracy. As we can see our hypotheses is correct as the accuracy results without those inputs is maintained. 
+
 \paragraph{Results}
 \section{Conclusions}
 So far we have learned how a neural network is structured, how the back-propagation algorithm works and how to differently train networks in order to achieve different results.
 
 Learning this subject was fun because of how easy it is to be impressed by machines learning through training. And now we have some knowledge of how it works.
-\section{Improvments}
+\section{Improvements}
 
 \section{Resources}
 
