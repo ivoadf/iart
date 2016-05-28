@@ -309,17 +309,13 @@ We chose to perform our following experiments without G1 or G2 on our input node
 The following experiments will be done separately for the Math students data set and for the Portuguese students data set, as the data is from different students, we are unable to join the data and have a network with 2 outputs, which would be one for Math G3 and another for Portuguese G3.
 
 \subsection{Math}
-\subsubsection{Training parameters and hidden layers}
-Before handling inputs, we will first change training parameters' values and hidden layer structures. 
-
-
-\begin{tabular}{| c | c | c | c | c | c | c | c |}
-\hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
-\hline 0.005 & \{1\} & 0.3 & 0.8 & \_G1\_G2\_ & 490 & 64\% & 21\%\\
-\hline 0.0005 & \{1\} & 0.3 & 0.8 & \_G1\_G2\_ & 1178 & 55\% & 18\%\\
-\hline
-\end{tabular}
-
+\begin{figure}[H]
+\label{fig:Grade Distribution for Mathematics}
+\includegraphics[scale=0.6]{mat-chart.png}
+\centering
+\caption{Grade Distribution for Mathematics}
+\end{figure}
+\subsubsection{Default network}
 \subsubsection{Meaningless inputs}
 First, we will try to find inputs that can be removed from the network that are making the network slower, perhaps making it suffer from over fitting and not contributing to accuracy. The first input nodes to be evaluated are ones that one can guess will be meaningless.
 \subsubsection{The schools}
@@ -345,8 +341,6 @@ The calculated average grades are:
 \end{tabular}
 
 As was expected from our observation of the changes on the network's accuracy, the school's average grades are differ in almost 1 value.
-
-We will keep the school input for our Math network, as it increases our accuracy.
 \subsubsection{Deprecated Inputs}
 \paragraph{Experiments}
 \paragraph{Results}
@@ -355,16 +349,33 @@ We will keep the school input for our Math network, as it increases our accuracy
 \paragraph{Results}
 
 
-
+\newpage
 \subsection{Portuguese}
+\begin{figure}[H]
+\label{fig:Grade Distribution for Portuguese}
+\includegraphics[scale=0.6]{por-chart.png}
+\centering
+\caption{Grade Distribution for Portuguese}
+\end{figure}
+\subsubsection{Parameter Values}
+
+\paragraph{Experiments}
+\paragraph{Results}
 \subsubsection{Neural Net Structure}
 \paragraph{Experiments}
 \paragraph{Results}
 \subsubsection{Deprecated Inputs}
-\paragraph{Experiments}
-\paragraph{Results}
-\subsubsection{Parameter Values}
-\paragraph{Experiments}
+
+\begin{tabular}{| c | c | c | c | p{3cm} | c | c | c |}
+\hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
+\hline 0.025 & \{15,10\} & 0.3 & 0.8 & \_G1 \_G2 \_ & 1 & 87\% & 36\%\\
+\hline 0.020 & \{15,10\} & 0.3 & 0.8 & \_G1 \_G2 \_ & 6 & 87\% & 36\%\\
+\hline 0.015 & \{15,10\} & 0.3 & 0.8 & \_G1 \_G2 \_ & 17 & 86\% & 39\%\\
+\hline 0.01 & \{15,10\} & 0.3 & 0.8 & \_G1 \_G2 \_ & 263 & 86\% & 39\%\\
+\hline 0.005 & \{15,10\} & 0.3 & 0.8 & \_G1 \_G2 \_ & 650 & 86\% & 37\%\\
+\hline 0.0009 & \{15,10\} & 0.3 & 0.8 & \_G1 \_G2 \_ & 2182 & 79\% & 32\%\\
+\hline
+\end{tabular}
 \paragraph{Results}
 \section{Conclusions}
 So far we have learned how a neural network is structured, how the back-propagation algorithm works and how to differently train networks in order to achieve different results.

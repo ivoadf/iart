@@ -10,29 +10,28 @@
 \contentsline {section}{\numberline {4}Experiments}{7}{section.4}
 \contentsline {subsection}{\numberline {4.1}The quitters}{8}{subsection.4.1}
 \contentsline {subsection}{\numberline {4.2}G1 and G2}{10}{subsection.4.2}
-\contentsline {subsection}{\numberline {4.3}Math}{10}{subsection.4.3}
-\contentsline {subsubsection}{\numberline {4.3.1}Default network}{10}{subsubsection.4.3.1}
-\contentsline {subsubsection}{\numberline {4.3.2}Meaningless inputs}{10}{subsubsection.4.3.2}
+\contentsline {subsection}{\numberline {4.3}Math}{11}{subsection.4.3}
+\contentsline {subsubsection}{\numberline {4.3.1}Default network}{11}{subsubsection.4.3.1}
+\contentsline {subsubsection}{\numberline {4.3.2}Meaningless inputs}{11}{subsubsection.4.3.2}
 \contentsline {subsubsection}{\numberline {4.3.3}The schools}{11}{subsubsection.4.3.3}
 \contentsline {subsubsection}{\numberline {4.3.4}Deprecated Inputs}{11}{subsubsection.4.3.4}
 \contentsline {paragraph}{Experiments}{11}{section*.2}
 \contentsline {paragraph}{Results}{11}{section*.3}
-\contentsline {subsubsection}{\numberline {4.3.5}Parameter Values}{11}{subsubsection.4.3.5}
-\contentsline {paragraph}{Experiments}{11}{section*.4}
-\contentsline {paragraph}{Results}{11}{section*.5}
-\contentsline {subsection}{\numberline {4.4}Portuguese}{11}{subsection.4.4}
-\contentsline {subsubsection}{\numberline {4.4.1}Neural Net Structure}{11}{subsubsection.4.4.1}
-\contentsline {paragraph}{Experiments}{11}{section*.6}
-\contentsline {paragraph}{Results}{11}{section*.7}
-\contentsline {subsubsection}{\numberline {4.4.2}Deprecated Inputs}{11}{subsubsection.4.4.2}
-\contentsline {paragraph}{Experiments}{11}{section*.8}
-\contentsline {paragraph}{Results}{11}{section*.9}
-\contentsline {subsubsection}{\numberline {4.4.3}Parameter Values}{11}{subsubsection.4.4.3}
-\contentsline {paragraph}{Experiments}{11}{section*.10}
-\contentsline {paragraph}{Results}{12}{section*.11}
-\contentsline {section}{\numberline {5}Conclusions}{12}{section.5}
-\contentsline {section}{\numberline {6}Improvments}{12}{section.6}
-\contentsline {section}{\numberline {7}Resources}{12}{section.7}
-\contentsline {subsection}{\numberline {7.1}Bibliography}{12}{subsection.7.1}
-\contentsline {subsection}{\numberline {7.2}Software}{12}{subsection.7.2}
-\contentsline {section}{\numberline {8}Appendix}{13}{section.8}
+\contentsline {subsubsection}{\numberline {4.3.5}Parameter Values}{12}{subsubsection.4.3.5}
+\contentsline {paragraph}{Experiments}{12}{section*.4}
+\contentsline {paragraph}{Results}{12}{section*.5}
+\contentsline {subsection}{\numberline {4.4}Portuguese}{13}{subsection.4.4}
+\contentsline {subsubsection}{\numberline {4.4.1}Parameter Values}{13}{subsubsection.4.4.1}
+\contentsline {paragraph}{Experiments}{13}{section*.6}
+\contentsline {paragraph}{Results}{13}{section*.7}
+\contentsline {subsubsection}{\numberline {4.4.2}Neural Net Structure}{13}{subsubsection.4.4.2}
+\contentsline {paragraph}{Experiments}{13}{section*.8}
+\contentsline {paragraph}{Results}{13}{section*.9}
+\contentsline {subsubsection}{\numberline {4.4.3}Deprecated Inputs}{13}{subsubsection.4.4.3}
+\contentsline {paragraph}{Results}{13}{section*.10}
+\contentsline {section}{\numberline {5}Conclusions}{13}{section.5}
+\contentsline {section}{\numberline {6}Improvments}{14}{section.6}
+\contentsline {section}{\numberline {7}Resources}{14}{section.7}
+\contentsline {subsection}{\numberline {7.1}Bibliography}{14}{subsection.7.1}
+\contentsline {subsection}{\numberline {7.2}Software}{14}{subsection.7.2}
+\contentsline {section}{\numberline {8}Appendix}{15}{section.8}
