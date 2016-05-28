@@ -189,6 +189,8 @@ On the created web interface, we are also allowed to manipulate the number of hi
 \section{Experiments}
 In this section, we will perform all the experiments and discuss the results.
 
+The objective of the experiments is to identify the optimal neural net structure and identify which inputs really affect the output. This is done so that the neural network trains in the least amount of time and the training results are the best possible with the current data set available.
+
 When specifying the number of hidden layers and hidden nodes used, the following representation is used:
 \textit{\{nodes\_First\_layer, nodes\_Second\_layer, ...., nodes\_N\_layer\}}
 
@@ -243,8 +245,7 @@ For the default set, with the default min threshold, the pass accuracy is the sa
 
 This happens because, as already referenced, the datasets are small and not very representative. 
 
-\hfill \break
-\hfill \break
+\newpage
 \textit{Why does grade accuracy drop more on the default set than pass accuracy, when compared to the value changes for the no-quitters set?}
 
 Because when a student has a 0, and the network calculates for example a 5 for that student, even though the grade error is large, the pass result is still the same. 
@@ -273,6 +274,11 @@ When comparing both graphs, we can clearly see the default network overfitting s
 
 \hfill \break
 \hfill \break
+
+We can also observe on the 2 graphs that, due to data-set shuffling, the default test set had no students with G3 of 20, while the no-quitters set had a student with a G3 of 20. Having a 20 on the test set will reduce grady accuracy because it is hard to predict a 20, since it is the highest value possible. We can see on the graphs that high expected grades have lower obtained values and low expected grades have higher obtained values. The obtained values tend towards the mean. 
+
+\hfill \break
+\hfill \break
 \textbf{Conclusion:}
 
 The following experiments will all be done on the no-quitters data-set.
@@ -298,15 +304,37 @@ When removing either G1 or G2, the pass accuracy stays more or less the same. Th
 \hfill \break
 When removing G1, the grade accuracy is almost half of when removing G2. This is because the G2 grade is a lot closer to the G3 grade than the G1. The value of G2 is depends on the value of G1, so, having G2 and not having G1 means that G1 still has some effect on the result.
 
-The objective of the experiments is to identify the optimal neural net structure  and to identify which inputs really affect the output. This is done so that the neural network trains in the least amount of time and the training results are the best possible with the current data set available.
+We chose to perform our following experiments without G1 or G2 on our input nodes. We found it to be more interesting to detect how high can the accuracy of the network go without these input nodes, as predicting a student's grades while having the grades as input doesn't sound like predicting at all.
 
-Despite selection of the structure and the inputs being the main goal, it is possible to test different values for the maximum number of iterations, error threshold, learning rate and momentum that can lead to better results but also create problems such as positive feedback loops and over fitting. To avoid these problems the values of said parameters need to be chosen carefully else the test results will not have a acceptable accuracy.
+The following experiments will be done separately for the Math students data set and for the Portuguese students data set, as the data is from different students, we are unable to join the data and have a network with 2 outputs, which would be one for Math G3 and another for Portuguese G3.
 
-The experiments will be done separately for the math students data set and for the Portuguese students data set, as the data is from different students.
 \subsection{Math}
-\subsubsection{Neural Net Structure}
-\paragraph{Experiments}
-\paragraph{Results}
+\subsubsection{Default network}
+\subsubsection{Meaningless inputs}
+First, we will try to find inputs that can be removed from the network that are making the network slower, perhaps making it suffer from over fitting and not contributing to accuracy. The first input nodes to be evaluated are ones that one can guess will be meaningless.
+\subsubsection{The schools}
+After a quick look at the data sets, we can see that there are only 2 schools, \textit{Gabriel Pereira} and \textit{Mousinho da Silveira}. Seeing as only 2 schools are in the data set, if both schools' students have similar average grades, the network output will be the same, or better. 
+
+\begin{tabular}{| c | c | c | c | c | c | c | c |}
+\hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
+\hline 0.005 & \{1\} & 0.3 & 0.8 & \_G1\_G2\_ & 463 & 60\% & 26\%\\
+\hline 0.005 & \{1\} & 0.3 & 0.8 & \_school\_G1\_G2\_ & 549 & 55\% & 22\%\\
+\hline
+\end{tabular}
+
+After removing the school input, the network's accuracy dropped. After this we have a hint that the schools' average grades differ. 
+
+The calculated average grades are:
+\hfill \break
+\hfill \break
+\begin{tabular}{| c | c |}
+\hline \textbf{School} & \textbf{Average Grades}\\
+\hline MS & 10.79\\
+\hline GP & 11.62\\
+\hline
+\end{tabular}
+
+As was expected from our observation of the changes on the network's accuracy, the school's average grades are differ in almost 1 value.
 \subsubsection{Deprecated Inputs}
 \paragraph{Experiments}
 \paragraph{Results}
