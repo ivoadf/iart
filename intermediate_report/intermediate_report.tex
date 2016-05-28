@@ -60,7 +60,7 @@ A neural network is comprised of 3 types of layers, each layer containing nodes 
 \item Output Layer
 \end{itemize}
 
-Each layer can have a different number of nodes and all of a layer's nodes are connected to all of the next layer's nodes. There is only one input layer and one output layer. There can be any number of hidden layers, each with any number of nodes. To solve most problems, only one hidden layer is required. Usually, the output layer consists of a single node. 
+Each layer can have a different number of nodes and all of a layer's nodes are connected to all of the next layer's nodes. There is only one input layer and one output layer. There can be any number of hidden layers, each with any number of nodes. To solve most problems, only one hidden layer is required. Usually, the output layer consists of a single node.
 A neuron consists of 5 main parts:
 \begin{enumerate}
 \item The \textbf{input}, through which the neuron receives information
@@ -82,7 +82,7 @@ A neuron consists of 5 main parts:
 \label{sec:back}
 Let $\overrightarrow{z}$ = $f(\overrightarrow{x}, \overrightarrow{w}), \overrightarrow{z}$representing the output of the neural network for the set of inputs $\overrightarrow{x}$ and set of weights $\overrightarrow{w}$
 Let $\overrightarrow{d}$ = $g(\overrightarrow{x}), \overrightarrow{d}$ representing the desired output of the neural network for the set of inputs $\overrightarrow{x}$
-To calculate how well the network is doing we must calculate a function that includes the difference between $\overrightarrow{d}$ and $\overrightarrow{z}$. 
+To calculate how well the network is doing we must calculate a function that includes the difference between $\overrightarrow{d}$ and $\overrightarrow{z}$.
 Let P($\overrightarrow{d}, \overrightarrow{z}$) = $\frac{1}{2} || \overrightarrow{d} -  \overrightarrow{z} ||$, we will call this the Performance function.
 \hfill \break
 \hfill \break
@@ -135,7 +135,7 @@ A factor that may lead to unsuccessfully training the network is the number of i
 The back-propagation algorithm must also shuffle the dataset instances before starting each iteration, otherwise it will be unable to successfully train. The chosen framework does this.
 \subsubsection{Training a series of Networks for the same dataset}
 \label{sec:training}
-The data-set to be used on the project has \href{http://archive.ics.uci.edu/ml/datasets/Student+Performance}{\underline{33 attributes and 649 instances}}. 
+The data-set to be used on the project has \href{http://archive.ics.uci.edu/ml/datasets/Student+Performance}{\underline{33 attributes and 649 instances}}.
 The 33rd attribute of the data-set is the final grade, this will be our single output node. This means that, initially, there will be 32 input nodes.
 One of the main purposes of the project, is treating the dataset, reducing non-important attributes. This will make the network training more efficient, since there will be less nodes to weight.
 
@@ -144,7 +144,7 @@ The framework we will be using restricts the inputs and outputs to be in the ran
 \hfill \break
 To train and test the network we will have to divide the dataset into two separate groups. The \textbf{Training Set} and the \textbf{Test Set}, these groups will be used to train different networks, however, they will be the same for all the networks. We could use a \textbf{Validation Set}, but since we only have 649 instances, having 3 disjoint sets would mean small sets, thus, we chose not to use the Validation Set, which may or may not be used in the training of a neural network.
 
-We will keep the Training Set size at 2/3 of the number of instances and the Test Set at 1/3, as it is usual to follow this approach. 
+We will keep the Training Set size at 2/3 of the number of instances and the Test Set at 1/3, as it is usual to follow this approach.
 \hfill \break
 \hfill \break
 As described in the \hyperref[sec:network]{Network} section, the network may have any number of hidden layers, each with any number of nodes. We must fiddle with these values while creating different networks, in order to create better networks with faster training times and better accuracy.
@@ -155,7 +155,7 @@ The network's learn rate and momentum may also be adjusted. We already discussed
 \hfill \break
 We can also adjust the error threshold to be achieved, which means that when the back-propagation calculated error is below the threshold, the training of the network stops.
 \subsection{Expected Results and Tests}
-From training different networks, and fiddling with the attributes referenced in the \hyperref[sec:training]{training} section, we expect to see different training times and network accuracies. 
+From training different networks, and fiddling with the attributes referenced in the \hyperref[sec:training]{training} section, we expect to see different training times and network accuracies.
 
 We are unable to set an accuracy goal for our final network, but we hope to see a noticeable increase when comparing our final network to our first.
 
@@ -180,9 +180,9 @@ Since we are using a Javascript framework, we decided to create a web interface,
 \textbf{Final grade accuracy} is defined by the network's ability to predict a student's final grade. While testing, the network compares to expected grade to the predicted grade, after rounding the predicted grade. If both grades are equal, then it's a \textbf{yes} for the \textbf{Final grade accuracy}, otherwhise, it's a \textbf{no}.
 \hfill \break
 \hfill \break
-The implementation allows us to feed in a data-set, which creates the Training and Test Set according to the inputed sizes. 
+The implementation allows us to feed in a data-set, which creates the Training and Test Set according to the inputed sizes.
 
-For this project we will be analysing two different data sets, the portuguese and math sets. Since the students in each data set are different, the sets must be handled separately. We will only create one training and test set for each data set, in order to use the same sets for all the experiments. The Training Sets are 70\% of the data set and the Test Sets the remaining 30\%. 
+For this project we will be analysing two different data sets, the portuguese and math sets. Since the students in each data set are different, the sets must be handled separately. We will only create one training and test set for each data set, in order to use the same sets for all the experiments. The Training Sets are 70\% of the data set and the Test Sets the remaining 30\%.
 
 On the created web interface, we are also allowed to manipulate the number of hidden layers and hidden nodes, and input and output nodes. This way we can easily remove some nodes from the neural network and perform experiments.
 
@@ -198,18 +198,18 @@ The removed column on the tables specifies the input nodes that were removed for
 
 Since the used framework is based on Javascript, training times will be higher than if a Java or C++ framework was used. However, iteration growth will be the same. We will only present the number of iterations for each train+test, not specifying the time. The time may also vary from what other work the browser is doing, which means it would not be a meaningful metric.
 
-The training and test sets are obtained only once for each data-set. These sets are obtained after shuffling the data-set, in order to achieve plausible results. If the data-set was not shuffled, the train set might contain very similar instances, and all of them very different from the instances on the test set, which would lead to bad accuracy. 
+The training and test sets are obtained only once for each data-set. These sets are obtained after shuffling the data-set, in order to achieve plausible results. If the data-set was not shuffled, the train set might contain very similar instances, and all of them very different from the instances on the test set, which would lead to bad accuracy.
 
 Since the data-set is only shuffled once to create the training and test set. Maybe the resulting shuffle is a bad one, this means that all following experiments will have either all higher or all lower results on experiments, however, the difference between experiments will still be noticeable. Nonetheless, this wouldn't happen if the original data-set was large and representative enough. Which does not happen because the data-sets have less than 400 instances, for what is a complicated problem.
 
 The training set is also shuffled between each training iteration.
 
 \subsection{The quitters}
-A quitter is a student who either failed the course due to too many absences, or decided to drop out. This means the quitter will have a G3 of 0. 
+A quitter is a student who either failed the course due to too many absences, or decided to drop out. This means the quitter will have a G3 of 0.
 
 We will use the Math dataset for this experiment, the same result is expected from the Portuguese dataset.
 
-Using the \textbf{default data-set:} 
+Using the \textbf{default data-set:}
 
 \begin{tabular}{| c | c | c | c | c | c | c | c |}
 \hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
@@ -223,7 +223,7 @@ Using the \textbf{default data-set:}
 
 \hfill \break
 \hfill \break
-Using the \textbf{no-quitters data-set:} 
+Using the \textbf{no-quitters data-set:}
 
 \begin{tabular}{| c | c | c | c | c | c | c | c |}
 \hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
@@ -241,14 +241,14 @@ Using the \textbf{no-quitters data-set:}
 For the default set, with the default min threshold, the pass accuracy is the same as for the no-quitters set. After lowering the min threshold 10 times, the pass accuracy stays the same for the no-quitters set but drops almost 10\% on all the following experiments for the default set. As for the grade accuracy, it drops an average of 7\% for the no-quitters set and an average of 20\% for the default set. This is due to overfitting, and this is why the experiments included lowering the learning rate and momentum and changing hidden layers. However, the obtained results were not much different.
 \hfill \break
 \hfill \break
-\textit{Why do both sets suffer from overfitting?} 
+\textit{Why do both sets suffer from overfitting?}
 
-This happens because, as already referenced, the datasets are small and not very representative. 
+This happens because, as already referenced, the datasets are small and not very representative.
 
 \newpage
 \textit{Why does grade accuracy drop more on the default set than pass accuracy, when compared to the value changes for the no-quitters set?}
 
-Because when a student has a 0, and the network calculates for example a 5 for that student, even though the grade error is large, the pass result is still the same. 
+Because when a student has a 0, and the network calculates for example a 5 for that student, even though the grade error is large, the pass result is still the same.
 
 \begin{figure}[H]
 \label{fig:Pass vs Grade}
@@ -257,7 +257,7 @@ Because when a student has a 0, and the network calculates for example a 5 for t
 \caption{Pass vs Grade accuracy (default)}
 \end{figure}
 
-The pass accuracy only fails when the expected and obtained values are on different sides of the pass line. This did not happen for any of the quitters. 
+The pass accuracy only fails when the expected and obtained values are on different sides of the pass line. This did not happen for any of the quitters.
 
 \begin{figure}[H]
 \label{fig:Pass vs Grade}
@@ -275,7 +275,7 @@ When comparing both graphs, we can clearly see the default network overfitting s
 \hfill \break
 \hfill \break
 
-We can also observe on the 2 graphs that, due to data-set shuffling, the default test set had no students with G3 of 20, while the no-quitters set had a student with a G3 of 20. Having a 20 on the test set will reduce grady accuracy because it is hard to predict a 20, since it is the highest value possible. We can see on the graphs that high expected grades have lower obtained values and low expected grades have higher obtained values. The obtained values tend towards the mean. 
+We can also observe on the 2 graphs that, due to data-set shuffling, the default test set had no students with G3 of 20, while the no-quitters set had a student with a G3 of 20. Having a 20 on the test set will reduce grady accuracy because it is hard to predict a 20, since it is the highest value possible. We can see on the graphs that high expected grades have lower obtained values and low expected grades have higher obtained values. The obtained values tend towards the mean.
 
 \hfill \break
 \hfill \break
@@ -299,7 +299,7 @@ We expect G1 and G2 to be have a very strong influence on the result of G3, so w
 When removing both G1 and G2, pass accuracy drops 1/3 and the grade accuracy drops 2/3. As expected, the grade accuracy always drops more than the pass accuracy.
 \hfill \break
 \hfill \break
-When removing either G1 or G2, the pass accuracy stays more or less the same. This happens because knowing a student's grades on G1 or G2 has a high impact on predicting if the student will pass or not. 
+When removing either G1 or G2, the pass accuracy stays more or less the same. This happens because knowing a student's grades on G1 or G2 has a high impact on predicting if the student will pass or not.
 \hfill \break
 \hfill \break
 When removing G1, the grade accuracy is almost half of when removing G2. This is because the G2 grade is a lot closer to the G3 grade than the G1. The value of G2 is depends on the value of G1, so, having G2 and not having G1 means that G1 still has some effect on the result.
@@ -307,6 +307,19 @@ When removing G1, the grade accuracy is almost half of when removing G2. This is
 We chose to perform our following experiments without G1 or G2 on our input nodes. We found it to be more interesting to detect how high can the accuracy of the network go without these input nodes, as predicting a student's grades while having the grades as input doesn't sound like predicting at all.
 
 The following experiments will be done separately for the Math students data set and for the Portuguese students data set, as the data is from different students, we are unable to join the data and have a network with 2 outputs, which would be one for Math G3 and another for Portuguese G3.
+\subsection{Training threshold}
+For the training threshold, we will test an array of different values. However, we suspect the training threshold of 0.025 to the best threshold. A grade is accurately defined if $|expected - obtained| < 0.5$. Seeing as all our values are mapped to [0, 1] interval, and $0.5 / 20 = 0.025$, the network is trained enough. If the network is trained any further it will start overfitting.
+
+\begin{tabular}{| c | c | c | c | c | c | c | c |}
+\hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
+\hline 0.0005 & \{1\} & 0.3 & 0.8 & \_G1\_G2\_ & 1178 & 55\% & 18\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_G1\_G2\_ & 110 & 70\% & 29\%\\
+\hline 0.005 & \{1\} & 0.3 & 0.8 & \_G1\_G2\_ & 490 & 64\% & 21\%\\
+\hline 0.0005 & \{1\} & 0.3 & 0.8 & \_G1\_G2\_ & 1178 & 55\% & 18\%\\
+\hline
+\end{tabular}
+
+As expected, the minimum threshold of 0.025 was the best. This was calculated for the Math dataset, but it's expected to be the same for the Portuguese one.
 
 \subsection{Math}
 \begin{figure}[H]
@@ -315,38 +328,110 @@ The following experiments will be done separately for the Math students data set
 \centering
 \caption{Grade Distribution for Mathematics}
 \end{figure}
-\subsubsection{Default network}
-\subsubsection{Meaningless inputs}
-First, we will try to find inputs that can be removed from the network that are making the network slower, perhaps making it suffer from over fitting and not contributing to accuracy. The first input nodes to be evaluated are ones that one can guess will be meaningless.
-\subsubsection{The schools}
-After a quick look at the data sets, we can see that there are only 2 schools, \textit{Gabriel Pereira} and \textit{Mousinho da Silveira}. Seeing as only 2 schools are in the data set, if both schools' students have similar average grades, the network output will be the same, or better. 
+Here we will try different combinations of
+\begin{itemize}
+\item Input nodes
+\item Hidden layer setups
+\item Training values
+\end{itemize}
+
+Before testing, we expect inputs like \textit{sex, age, address, health} to not help the network predicting the values. We will begin by removing these inputs.
+
 
 \begin{tabular}{| c | c | c | c | c | c | c | c |}
 \hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
-\hline 0.005 & \{1\} & 0.3 & 0.8 & \_G1\_G2\_ & 463 & 60\% & 26\%\\
-\hline 0.005 & \{1\} & 0.3 & 0.8 & \_school\_G1\_G2\_ & 549 & 55\% & 22\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_G1\_G2\_ & 110 & 70\% & 29\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_sex\_age\_address\_health\_G1\_G2\_ & 136 & 70\% & 32\%\\
 \hline
 \end{tabular}
 
-After removing the school input, the network's accuracy dropped. After this we have a hint that the schools' average grades differ. 
+The health input, according to the dataset, was the student's health status, at the moment of answering the questions, this means that the health value may not have had an impact on the grades, throughout the year, because the student's health status may have changed after the end of the school year.
 
-The calculated average grades are:
+As expected, none of these inputs do not help the network.
 \hfill \break
 \hfill \break
-\begin{tabular}{| c | c |}
-\hline \textbf{School} & \textbf{Average Grades}\\
-\hline MS & 10.79\\
-\hline GP & 11.62\\
+
+After a quick look at the data sets, we can see that there are only 2 schools, \textit{Gabriel Pereira} and \textit{Mousinho da Silveira}. Seeing as only 2 schools are in the data set, if both schools' students have different average grades, the network output will be worse, if the school input node is removed.
+
+\begin{tabular}{| c | c | c | c | c | c | c | c |}
+\hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_sex\_age\_address\_health\_G1\_G2\_ & 136 & 70\% & 32\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age\_address\_health\_G1\_G2\_ & 176 & 70\% & 34\%\\
 \hline
 \end{tabular}
 
-As was expected from our observation of the changes on the network's accuracy, the school's average grades are differ in almost 1 value.
-\subsubsection{Deprecated Inputs}
-\paragraph{Experiments}
-\paragraph{Results}
-\subsubsection{Parameter Values}
-\paragraph{Experiments}
-\paragraph{Results}
+From the result we can say that the average and standard deviation of the grades from different schools will be the same.
+
+Now we will calculate the average and standard deviation for each school.
+
+\begin{tabular}{| c | c | c |}
+\hline \textbf{School} & \textbf{Average Grades} & \textbf{Standard Deviation}\\
+\hline MS & 10.79 & 3.06\\
+\hline GP & 11.62 & 3.24\\
+\hline
+\end{tabular}
+As hinted by the result of removing the school input node, the average and standard deviation of the grades are fairly similar.
+
+We will keep trying out node input combinations until getting the best network.
+
+\begin{tabular}{| c | c | c | c | p{3cm} | c | c | c |}
+\hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_health \_G1\_G2\_ & 176 & 70\% & 34\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_higher \_health\_G1\_G2\_ & 195 & 69\% & 35\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_reason \_guardian\_higher \_internet\_romantic \_health\_G1\_G2\_ & 271 & 72\% & 34\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_reason \_guardian\_higher \_internet\_romantic \_Dalc\_Walc \_health\_G1\_G2\_ & 245 & 72\% & 35\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_reason \_guardian\_higher \_internet\_romantic \_famrel\_goout \_Dalc\_Walc \_health\_G1\_G2\_ & 294 & 71\% & 36\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_reason \_guardian \_activities\_nursery \_higher\_internet \_romantic\_famrel \_goout\_Dalc \_Walc\_health \_G1\_G2\_ & 401 & 71\% & 32\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_reason \_guardian \_activities\_nursery \_higher\_internet \_romantic\_famrel \_freetime\_goout \_Dalc\_Walc \_health\_G1\_G2\_ & 435 & 71\% & 33\%\\
+\hline
+\end{tabular}
+\newpage
+\begin{tabular}{| c | c | c | c | p{3cm} | c | c | c |}
+\hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_famsize \_reason \_guardian\_activities \_nursery\_higher \_internet\_romantic \_famrel\_freetime \_goout\_Dalc \_Walc\_health \_G1\_G2\_ & 433 & 71\% & 31\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_famsize \_reason \_guardian\_paid \_activities\_nursery \_higher\_internet \_romantic\_famrel \_freetime\_goout \_Dalc\_Walc \_health\_G1\_G2\_ & 544 & 73\% & 32\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_famsize \_reason \_guardian\_paid \_activities\_nursery \_higher\_internet \_romantic\_famrel \_freetime\_goout \_Dalc\_Walc \_health\_absences \_G1\_G2\_ & 580 & 73\% & 33\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_famsize \_reason\_guardian \_traveltime\_paid \_activities\_nursery \_higher\_internet \_romantic\_famrel \_freetime\_goout \_Dalc\_Walc \_health\_absences \_G1\_G2\_ & 987 & 72\% & 34\%\\
+\hline
+\end{tabular}
+\newpage
+\begin{tabular}{| c | c | c | c | p{3cm} | c | c | c |}
+\hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_famsize \_reason\_guardian \_traveltime\_studytime \_paid\_activities \_nursery\_higher \_internet\_romantic \_famrel\_freetime \_goout\_Dalc \_Walc\_health \_absences\_G1\_G2\_ & 2582 & 66\% & 33\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_famsize \_reason\_guardian \_traveltime\_failures \_paid\_activities \_nursery\_higher \_internet\_romantic \_famrel\_freetime \_goout\_Dalc \_Walc\_health \_absences\_G1\_G2\_ & 1853 & 65\% & 26\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_famsize \_Pstatus\_reason \_guardian\_traveltime \_paid\_activities \_nursery\_higher \_internet\_romantic \_famrel\_freetime \_goout\_Dalc \_Walc\_health \_absences\_G1\_G2\_ & 702 & 71\% & 31\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_famsize \_Pstatus\_Medu \_Fedu\_reason \_guardian\_traveltime \_paid\_activities \_nursery\_higher \_internet\_romantic \_famrel\_freetime \_goout\_Dalc \_Walc\_health \_absences\_G1\_G2\_ & 20000 & 74\% & 31\%\\
+\hline
+\end{tabular}
+\newpage
+\begin{tabular}{| c | c | c | c | p{3cm} | c | c | c |}
+\hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_famsize \_Pstatus\_Medu \_Fedu\_reason \_guardian\_traveltime \_paid\_activities \_nursery\_higher \_internet\_romantic \_famrel\_freetime \_goout\_Dalc \_Walc\_health \_absences\_G1\_G2\_ & 20000 & 75\% & 32\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_famsize \_Pstatus\_Medu \_Fedu\_Fjob \_reason\_guardian \_traveltime\_paid \_activities\_nursery \_higher\_internet \_romantic\_famrel \_freetime\_goout \_Dalc\_Walc \_health\_absences \_G1\_G2\_ & 20000 & 65\% & 29\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_famsize \_Pstatus\_Mjob \_Fjob\_reason \_guardian\_traveltime \_paid\_activities \_nursery\_higher \_internet\_romantic \_famrel\_freetime \_goout\_Dalc \_Walc\_health \_absences\_G1\_G2\_ & 20000 & 57\% & 30\%\\
+\hline
+\end{tabular}
+\newpage
+\begin{tabular}{| c | c | c | c | p{3cm} | c | c | c |}
+\hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_famsize \_reason\_guardian \_traveltime\_paid \_activities \_nursery\_higher \_internet\_romantic \_famrel\_freetime \_goout\_Dalc \_Walc\_health \_absences\_G1\_G2\_ & 957 & 74\% & 32\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age\_address\_famsize\_Pstatus\_reason\_guardian\_traveltime\_failures\_paid\_activities\_nursery\_higher\_internet\_romantic\_famrel\_freetime\_goout\_Dalc\_Walc\_health\_absences\_G1\_G2\_ & 20000 & 62\% & 20\%\\
+\hline
+\end{tabular}
+
+Conclusions:
+
+\begin{itemize}
+\item Removing \textbf{MEdu} and \textbf{FEdu} lowers the accuracy, but not as much as lowering \textbf{MJob} and \textbf{FJob}, this is because the Job feature is very often a consequence of the Edu feature. Also, when a student's mother or father are teachers, the student will most likely have good grades. Like this pair, there are more on the dataset. For example, \textbf{freetime} and \textbf{activities}.
+\item After removing too many input nodes, removing any more node causes the training to reach max iterations, never going below training threshold. However, if the removed nodes are not important, the test accuracies remain about the same.
+\item \begin{tabular}{| c | c | c | c | p{3cm} | c | c | c |}
+\hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_famsize \_reason\_guardian \_traveltime\_studytime \_paid\_activities \_nursery\_higher \_internet\_romantic \_famrel\_freetime \_goout\_Dalc \_Walc\_health \_absences\_G1\_G2\_ & 2582 & 66\% & 33\%\\
+\hline
+\end{tabular}
+On this experiment, removing the study\_time did not affect our network like it was supposed to. Our guess is that the students might have lied about many of the values. This, in addition to the data-set being too small, makes the conclusions not too reliable.
+\item Most attributes of a student's life aren't very important in calculating their final Math grade. According to our best network structure, with less inputs, what is important is the parents' education, the support the student receives from the school and parents, the time the student spends studying and how many times the student has failed before. The parents' education is important since the more educated the parents are, the more effort they will put into making sure their child spends time studying. In the end, the more a student works, the better they do. As for their out of school life, the students can fill it as they desire, just as long as they keep studying enough.
+\end{itemize}
 
 
 \newpage
