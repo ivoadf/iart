@@ -10,19 +10,15 @@
 \BOOKMARK [1][-]{section.4}{Experiments}{}% 10
 \BOOKMARK [2][-]{subsection.4.1}{The quitters}{section.4}% 11
 \BOOKMARK [2][-]{subsection.4.2}{G1 and G2}{section.4}% 12
-\BOOKMARK [2][-]{subsection.4.3}{Math}{section.4}% 13
-\BOOKMARK [3][-]{subsubsection.4.3.1}{Default network}{subsection.4.3}% 14
-\BOOKMARK [3][-]{subsubsection.4.3.2}{Meaningless inputs}{subsection.4.3}% 15
-\BOOKMARK [3][-]{subsubsection.4.3.3}{The schools}{subsection.4.3}% 16
-\BOOKMARK [3][-]{subsubsection.4.3.4}{Deprecated Inputs}{subsection.4.3}% 17
-\BOOKMARK [3][-]{subsubsection.4.3.5}{Parameter Values}{subsection.4.3}% 18
-\BOOKMARK [2][-]{subsection.4.4}{Portuguese}{section.4}% 19
-\BOOKMARK [3][-]{subsubsection.4.4.1}{Neural Net Structure}{subsection.4.4}% 20
-\BOOKMARK [3][-]{subsubsection.4.4.2}{Deprecated Inputs}{subsection.4.4}% 21
-\BOOKMARK [3][-]{subsubsection.4.4.3}{Parameter Values}{subsection.4.4}% 22
-\BOOKMARK [1][-]{section.5}{Conclusions}{}% 23
-\BOOKMARK [1][-]{section.6}{Improvments}{}% 24
-\BOOKMARK [1][-]{section.7}{Resources}{}% 25
-\BOOKMARK [2][-]{subsection.7.1}{Bibliography}{section.7}% 26
-\BOOKMARK [2][-]{subsection.7.2}{Software}{section.7}% 27
-\BOOKMARK [1][-]{section.8}{Appendix}{}% 28
+\BOOKMARK [2][-]{subsection.4.3}{Training threshold}{section.4}% 13
+\BOOKMARK [2][-]{subsection.4.4}{Math}{section.4}% 14
+\BOOKMARK [2][-]{subsection.4.5}{Portuguese}{section.4}% 15
+\BOOKMARK [3][-]{subsubsection.4.5.1}{Neural Net Structure}{subsection.4.5}% 16
+\BOOKMARK [3][-]{subsubsection.4.5.2}{Deprecated Inputs}{subsection.4.5}% 17
+\BOOKMARK [3][-]{subsubsection.4.5.3}{Parameter Values}{subsection.4.5}% 18
+\BOOKMARK [1][-]{section.5}{Conclusions}{}% 19
+\BOOKMARK [1][-]{section.6}{Improvments}{}% 20
+\BOOKMARK [1][-]{section.7}{Resources}{}% 21
+\BOOKMARK [2][-]{subsection.7.1}{Bibliography}{section.7}% 22
+\BOOKMARK [2][-]{subsection.7.2}{Software}{section.7}% 23
+\BOOKMARK [1][-]{section.8}{Appendix}{}% 24

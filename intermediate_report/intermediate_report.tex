@@ -308,51 +308,125 @@ We chose to perform our following experiments without G1 or G2 on our input node
 
 The following experiments will be done separately for the Math students data set and for the Portuguese students data set, as the data is from different students, we are unable to join the data and have a network with 2 outputs, which would be one for Math G3 and another for Portuguese G3.
 
-\subsection{Math}
-\subsubsection{Training parameters and hidden layers}
-Before handling inputs, we will first change training parameters' values and hidden layer structures. 
-
+\subsection{Training threshold}
+For the training threshold, we will test an array of different values. However, we suspect the training threshold of 0.025 to the best threshold. A grade is accurately defined if $|expected - obtained| < 0.5$. Seeing as all our values are mapped to [0, 1] interval, and $0.5 / 20 = 0.025$, the network is trained enough. If the network is trained any further it will start overfitting. 
 
 \begin{tabular}{| c | c | c | c | c | c | c | c |}
 \hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
+\hline 0.0005 & \{1\} & 0.3 & 0.8 & \_G1\_G2\_ & 1178 & 55\% & 18\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_G1\_G2\_ & 110 & 70\% & 29\%\\
 \hline 0.005 & \{1\} & 0.3 & 0.8 & \_G1\_G2\_ & 490 & 64\% & 21\%\\
 \hline 0.0005 & \{1\} & 0.3 & 0.8 & \_G1\_G2\_ & 1178 & 55\% & 18\%\\
 \hline
 \end{tabular}
 
-\subsubsection{Meaningless inputs}
-First, we will try to find inputs that can be removed from the network that are making the network slower, perhaps making it suffer from over fitting and not contributing to accuracy. The first input nodes to be evaluated are ones that one can guess will be meaningless.
-\subsubsection{The schools}
-After a quick look at the data sets, we can see that there are only 2 schools, \textit{Gabriel Pereira} and \textit{Mousinho da Silveira}. Seeing as only 2 schools are in the data set, if both schools' students have similar average grades, the network output will be the same, or better. 
+As expected, the minimum threshold of 0.025 was the best. This was calculated for the Math dataset, but it's expected to be the same for the Portuguese one.
+
+\subsection{Math}
+Here we will try different combinations of 
+\begin{itemize}
+\item Input nodes
+\item Hidden layer setups
+\item Training values
+\end{itemize} 
+
+Before testing, we expect inputs like \textit{sex, age, address, health} to not help the network predicting the values. We will begin by removing these inputs.
 
 \begin{tabular}{| c | c | c | c | c | c | c | c |}
 \hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
-\hline 0.005 & \{1\} & 0.3 & 0.8 & \_G1\_G2\_ & 463 & 60\% & 26\%\\
-\hline 0.005 & \{1\} & 0.3 & 0.8 & \_school\_G1\_G2\_ & 549 & 55\% & 22\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_G1\_G2\_ & 110 & 70\% & 29\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_sex\_age\_address\_health\_G1\_G2\_ & 136 & 70\% & 32\%\\
 \hline
 \end{tabular}
 
-After removing the school input, the network's accuracy dropped. After this we have a hint that the schools' average grades differ. 
+The health input, according to the dataset, was the student's health status, at the moment of answering the questions, this means that the health value may not have had an impact on the grades, throughout the year, because the student's health status may have changed after the end of the school year.
 
-The calculated average grades are:
+As expected, none of these inputs do not help the network. 
 \hfill \break
 \hfill \break
-\begin{tabular}{| c | c |}
-\hline \textbf{School} & \textbf{Average Grades}\\
-\hline MS & 10.79\\
-\hline GP & 11.62\\
+
+After a quick look at the data sets, we can see that there are only 2 schools, \textit{Gabriel Pereira} and \textit{Mousinho da Silveira}. Seeing as only 2 schools are in the data set, if both schools' students have different average grades, the network output will be worse, if the school input node is removed.
+
+\begin{tabular}{| c | c | c | c | c | c | c | c |}
+\hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_sex\_age\_address\_health\_G1\_G2\_ & 136 & 70\% & 32\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age\_address\_health\_G1\_G2\_ & 176 & 70\% & 34\%\\
+\hline
+\end{tabular} 
+
+From the result we can say that the average and standard deviation of the grades from different schools will be the same.
+
+Now we will calculate the average and standard deviation for each school.
+
+\begin{tabular}{| c | c | c |}
+\hline \textbf{School} & \textbf{Average Grades} & \textbf{Standard Deviation}\\
+\hline MS & 10.79 & 3.06\\
+\hline GP & 11.62 & 3.24\\
 \hline
 \end{tabular}
 
-As was expected from our observation of the changes on the network's accuracy, the school's average grades are differ in almost 1 value.
+As hinted by the result of removing the school input node, the average and standard deviation of the grades are fairly similar.
 
-We will keep the school input for our Math network, as it increases our accuracy.
-\subsubsection{Deprecated Inputs}
-\paragraph{Experiments}
-\paragraph{Results}
-\subsubsection{Parameter Values}
-\paragraph{Experiments}
-\paragraph{Results}
+We will keep trying out node input combinations until getting the best network.
+
+\begin{tabular}{| c | c | c | c | p{3cm} | c | c | c |}
+\hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_health \_G1\_G2\_ & 176 & 70\% & 34\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_higher \_health\_G1\_G2\_ & 195 & 69\% & 35\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_reason \_guardian\_higher \_internet\_romantic \_health\_G1\_G2\_ & 271 & 72\% & 34\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_reason \_guardian\_higher \_internet\_romantic \_Dalc\_Walc \_health\_G1\_G2\_ & 245 & 72\% & 35\%\\	
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_reason \_guardian\_higher \_internet\_romantic \_famrel\_goout \_Dalc\_Walc \_health\_G1\_G2\_ & 294 & 71\% & 36\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_reason \_guardian \_activities\_nursery \_higher\_internet \_romantic\_famrel \_goout\_Dalc \_Walc\_health \_G1\_G2\_ & 401 & 71\% & 32\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_reason \_guardian \_activities\_nursery \_higher\_internet \_romantic\_famrel \_freetime\_goout \_Dalc\_Walc \_health\_G1\_G2\_ & 435 & 71\% & 33\%\\
+\hline
+\end{tabular}
+\newpage
+\begin{tabular}{| c | c | c | c | p{3cm} | c | c | c |}
+\hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_famsize \_reason \_guardian\_activities \_nursery\_higher \_internet\_romantic \_famrel\_freetime \_goout\_Dalc \_Walc\_health \_G1\_G2\_ & 433 & 71\% & 31\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_famsize \_reason \_guardian\_paid \_activities\_nursery \_higher\_internet \_romantic\_famrel \_freetime\_goout \_Dalc\_Walc \_health\_G1\_G2\_ & 544 & 73\% & 32\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_famsize \_reason \_guardian\_paid \_activities\_nursery \_higher\_internet \_romantic\_famrel \_freetime\_goout \_Dalc\_Walc \_health\_absences \_G1\_G2\_ & 580 & 73\% & 33\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_famsize \_reason\_guardian \_traveltime\_paid \_activities\_nursery \_higher\_internet \_romantic\_famrel \_freetime\_goout \_Dalc\_Walc \_health\_absences \_G1\_G2\_ & 987 & 72\% & 34\%\\
+\hline
+\end{tabular}
+\newpage
+\begin{tabular}{| c | c | c | c | p{3cm} | c | c | c |}
+\hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_famsize \_reason\_guardian \_traveltime\_studytime \_paid\_activities \_nursery\_higher \_internet\_romantic \_famrel\_freetime \_goout\_Dalc \_Walc\_health \_absences\_G1\_G2\_ & 2582 & 66\% & 33\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_famsize \_reason\_guardian \_traveltime\_failures \_paid\_activities \_nursery\_higher \_internet\_romantic \_famrel\_freetime \_goout\_Dalc \_Walc\_health \_absences\_G1\_G2\_ & 1853 & 65\% & 26\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_famsize \_Pstatus\_reason \_guardian\_traveltime \_paid\_activities \_nursery\_higher \_internet\_romantic \_famrel\_freetime \_goout\_Dalc \_Walc\_health \_absences\_G1\_G2\_ & 702 & 71\% & 31\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_famsize \_Pstatus\_Medu \_Fedu\_reason \_guardian\_traveltime \_paid\_activities \_nursery\_higher \_internet\_romantic \_famrel\_freetime \_goout\_Dalc \_Walc\_health \_absences\_G1\_G2\_ & 20000 & 74\% & 31\%\\
+\hline
+\end{tabular}
+\newpage
+\begin{tabular}{| c | c | c | c | p{3cm} | c | c | c |}
+\hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_famsize \_Pstatus\_Medu \_Fedu\_reason \_guardian\_traveltime \_paid\_activities \_nursery\_higher \_internet\_romantic \_famrel\_freetime \_goout\_Dalc \_Walc\_health \_absences\_G1\_G2\_ & 20000 & 75\% & 32\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_famsize \_Pstatus\_Medu \_Fedu\_Fjob \_reason\_guardian \_traveltime\_paid \_activities\_nursery \_higher\_internet \_romantic\_famrel \_freetime\_goout \_Dalc\_Walc \_health\_absences \_G1\_G2\_ & 20000 & 65\% & 29\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_famsize \_Pstatus\_Mjob \_Fjob\_reason \_guardian\_traveltime \_paid\_activities \_nursery\_higher \_internet\_romantic \_famrel\_freetime \_goout\_Dalc \_Walc\_health \_absences\_G1\_G2\_ & 20000 & 57\% & 30\%\\
+\hline
+\end{tabular}
+\newpage
+\begin{tabular}{| c | c | c | c | p{3cm} | c | c | c |}
+\hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_famsize \_reason\_guardian \_traveltime\_paid \_activities \_nursery\_higher \_internet\_romantic \_famrel\_freetime \_goout\_Dalc \_Walc\_health \_absences\_G1\_G2\_ & 957 & 74\% & 32\%\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age\_address\_famsize\_Pstatus\_reason\_guardian\_traveltime\_failures\_paid\_activities\_nursery\_higher\_internet\_romantic\_famrel\_freetime\_goout\_Dalc\_Walc\_health\_absences\_G1\_G2\_ & 20000 & 62\% & 20\%\\
+\hline
+\end{tabular}
+
+Conclusions:
+
+\begin{itemize}
+\item Removing \textbf{MEdu} and \textbf{FEdu} lowers the accuracy, but not as much as lowering \textbf{MJob} and \textbf{FJob}, this is because the Job feature is very often a consequence of the Edu feature. Also, when a student's mother or father are teachers, the student will most likely have good grades. Like this pair, there are more on the dataset. For example, \textbf{freetime} and \textbf{activities}.
+\item After removing too many input nodes, removing any more node causes the training to reach max iterations, never going below training threshold. However, if the removed nodes are not important, the test accuracies remain about the same.
+\item \begin{tabular}{| c | c | c | c | p{3cm} | c | c | c |}
+\hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
+\hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_famsize \_reason\_guardian \_traveltime\_studytime \_paid\_activities \_nursery\_higher \_internet\_romantic \_famrel\_freetime \_goout\_Dalc \_Walc\_health \_absences\_G1\_G2\_ & 2582 & 66\% & 33\%\\
+\hline
+\end{tabular}
+On this experiment, removing the study\_time did not affect our network like it was supposed to. Our guess is that the students might have lied about many of the values. This, in addition to the data-set being too small, makes the conclusions not too reliable.
+\item Most attributes of a student's life aren't very important in calculating their final Math grade. According to our best network structure, with less inputs, what is important is the parents' education, the support the student receives from the school and parents, the time the student spends studying and how many times the student has failed before. The parents' education is important since the more educated the parents are, the more effort they will put into making sure their child spends time studying. In the end, the more a student works, the better they do. As for their out of school life, the students can fill it as they desire, just as long as they keep studying enough.
+\end{itemize}
 
 
 
