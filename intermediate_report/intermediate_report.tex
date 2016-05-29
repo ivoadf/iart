@@ -6,12 +6,6 @@
 \usepackage{mathtools}
 \usepackage{float}
 \usepackage[margin=0.5in]{geometry}
-\usepackage{xcolor}
-\hypersetup{
-  colorlinks=true,
-  linkcolor=blue!50!red,
-  urlcolor=green!70!black
-}
 
 \begin{document}
 \setlength{\textwidth}{20cm}
@@ -436,7 +430,7 @@ We will keep trying out node input combinations until getting the best network.
 Conclusions:
 
 \begin{itemize}
-\item
+\item 
 \begin{tabular}{| c | c | c | c | p{3cm} | c | c | c |}
 \hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
 \hline 0.025 & \{1\} & 0.3 & 0.8 & \_school\_sex\_age \_address\_famsize \_Pstatus\_Medu \_Fedu\_reason \_guardian\_traveltime \_paid\_activities \_nursery\_higher \_internet\_romantic \_famrel\_freetime \_goout\_Dalc \_Walc\_health \_absences\_G1\_G2\_ & 20000 & 75\% & 32\%\\
@@ -483,6 +477,7 @@ On this section, the number of hidden layers and nodes will be changed, to achie
 \hline 0.025 & \{5\} & 0.3 & 0.8 & \_school \_sex \_age \_address \_famsize \_Pstatus \_reason \_guardian \_traveltime \_paid \_activities \_nursery \_higher \_internet \_romantic \_famrel \_freetime \_goout \_Dalc \_Walc \_health \_absences \_G1 \_G2 \_ & 833 & 70\% & 32\%\\
 \hline
 \end{tabular}
+\newpage
 \begin{tabular}{| c | c | c | c | p{3cm} | c | c | c |}
 \hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
 \hline 0.025 & \{10,5\} & 0.3 & 0.8 & \_school \_sex \_age \_address \_famsize \_Pstatus \_reason \_guardian \_traveltime \_paid \_activities \_nursery \_higher \_internet \_romantic \_famrel \_freetime \_goout \_Dalc \_Walc \_health \_absences \_G1 \_G2 \_ & 1212 & 72\% & 31\%\\
@@ -490,6 +485,7 @@ On this section, the number of hidden layers and nodes will be changed, to achie
 \hline 0.025 & \{10,5\} & 0.3 & 0.8 & \_school \_sex \_age \_address \_famsize \_Pstatus \_reason \_guardian \_traveltime \_paid \_activities \_nursery \_higher \_internet \_romantic \_famrel \_freetime \_goout \_Dalc \_Walc \_health \_absences \_G1 \_G2 \_ & 1060 & 71\% & 31\%\\
 \hline
 \end{tabular}
+\newpage
 \begin{tabular}{| c | c | c | c | p{3cm} | c | c | c |}
 \hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
 \hline 0.025 & \{15,10,5\} & 0.3 & 0.8 & \_school \_sex \_age \_address \_famsize \_Pstatus \_reason \_guardian \_traveltime \_paid \_activities \_nursery \_higher \_internet \_romantic \_famrel \_freetime \_goout \_Dalc \_Walc \_health \_absences \_G1 \_G2 \_ & 1072 & 71\% & 31\%\\
@@ -497,6 +493,7 @@ On this section, the number of hidden layers and nodes will be changed, to achie
 \hline 0.025 & \{15,10,5\} & 0.3 & 0.8 & \_school \_sex \_age \_address \_famsize \_Pstatus \_reason \_guardian \_traveltime \_paid \_activities \_nursery \_higher \_internet \_romantic \_famrel \_freetime \_goout \_Dalc \_Walc \_health \_absences \_G1 \_G2 \_ & 872 & 72\% & 35\%\\
 \hline
 \end{tabular}
+\newpage
 \begin{tabular}{| c | c | c | c | p{3cm} | c | c | c |}
 \hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
 \hline 0.025 & \{20,15,10,5\} & 0.3 & 0.8 & \_school \_sex \_age \_address \_famsize \_Pstatus \_reason \_guardian \_traveltime \_paid \_activities \_nursery \_higher \_internet \_romantic \_famrel \_freetime \_goout \_Dalc \_Walc \_health \_absences \_G1 \_G2 \_ & 871 & 72\% & 29\%\\
@@ -509,6 +506,7 @@ On this section, the number of hidden layers and nodes will be changed, to achie
 As we can see, when the network has a low number of hidden layers and nodes, the results can be inconsistent. Remember this also happens because the data-set is small. However, when increasing the number of nodes and layers the network becomes more consistent.
 
 When too many layers are added, the network starts losing accuracy again. The best combination found by us was:
+
 \begin{tabular}{| c | c | c | c | p{3cm} | c | c | c |}
 \hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
 \hline 0.025 & \{15,10,5\} & 0.3 & 0.8 & \_school \_sex \_age \_address \_famsize \_Pstatus \_reason \_guardian \_traveltime \_paid \_activities \_nursery \_higher \_internet \_romantic \_famrel \_freetime \_goout \_Dalc \_Walc \_health \_absences \_G1 \_G2 \_ & 872 & 72\% & 35\%\\
@@ -524,20 +522,25 @@ In this section we will change the learning rate and momentum, on our current be
 \hline 0.025 & \{15,10,5\} & 0.3 & 0.8 & \_school \_sex \_age \_address \_famsize \_Pstatus \_reason \_guardian \_traveltime \_paid \_activities \_nursery \_higher \_internet \_romantic \_famrel \_freetime \_goout \_Dalc \_Walc \_health \_absences \_G1 \_G2 \_ & 872 & 72\% & 35\%\\
 \hline 0.025 & \{15,10,5\} & 0.5 & 0.8 & \_school \_sex \_age \_address \_famsize \_Pstatus \_reason \_guardian \_traveltime \_paid \_activities \_nursery \_higher \_internet \_romantic \_famrel \_freetime \_goout \_Dalc \_Walc \_health \_absences \_G1 \_G2 \_ & 947 & 72\% & 32\%\\
 \hline 0.025 & \{15,10,5\} & 0.8 & 0.95 & \_school \_sex \_age \_address \_famsize \_Pstatus \_reason \_guardian \_traveltime \_paid \_activities \_nursery \_higher \_internet \_romantic \_famrel \_freetime \_goout \_Dalc \_Walc \_health \_absences \_G1 \_G2 \_ & 482 & 69\% & 31\%\\
-\hline 0.025 & \{15,10,5\} & 0.9 & 0.95 & \_school \_sex \_age \_address \_famsize \_Pstatus \_reason \_guardian \_traveltime \_paid \_activities \_nursery \_higher \_internet \_romantic \_famrel \_freetime \_goout \_Dalc \_Walc \_health \_absences \_G1 \_G2 \_ & 607 & 71\% & 29\%\\
 \hline
 \end{tabular}
 \newpage
 \begin{tabular}{| c | c | c | c | p{3cm} | c | c | c |}
 \hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
+\hline 0.025 & \{15,10,5\} & 0.9 & 0.95 & \_school \_sex \_age \_address \_famsize \_Pstatus \_reason \_guardian \_traveltime \_paid \_activities \_nursery \_higher \_internet \_romantic \_famrel \_freetime \_goout \_Dalc \_Walc \_health \_absences \_G1 \_G2 \_ & 607 & 71\% & 29\%\\
 \hline 0.025 & \{15,10,5\} & 0.1 & 0.5 & \_school \_sex \_age \_address \_famsize \_Pstatus \_reason \_guardian \_traveltime \_paid \_activities \_nursery \_higher \_internet \_romantic \_famrel \_freetime \_goout \_Dalc \_Walc \_health \_absences \_G1 \_G2 \_ & 1963 & 69\% & 31\%\\
 \hline 0.025 & \{15,10,5\} & 0.9 & 0.5 & \_school \_sex \_age \_address \_famsize \_Pstatus \_reason \_guardian \_traveltime \_paid \_activities \_nursery \_higher \_internet \_romantic \_famrel \_freetime \_goout \_Dalc \_Walc \_health \_absences \_G1 \_G2 \_ & 2493 & 68\% & 26\%\\
+\hline
+\end{tabular}
+\newpage
+\begin{tabular}{| c | c | c | c | p{3cm} | c | c | c |}
+\hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
 \hline 0.025 & \{15,10,5\} & 0.5 & 0.95 & \_school \_sex \_age \_address \_famsize \_Pstatus \_reason \_guardian \_traveltime \_paid \_activities \_nursery \_higher \_internet \_romantic \_famrel \_freetime \_goout \_Dalc \_Walc \_health \_absences \_G1 \_G2 \_ & 2641 & 70\% & 29\%\\
 \hline 0.025 & \{15,10,5\} & 0.9 & 0.9 & \_school \_sex \_age \_address \_famsize \_Pstatus \_reason \_guardian \_traveltime \_paid \_activities \_nursery \_higher \_internet \_romantic \_famrel \_freetime \_goout \_Dalc \_Walc \_health \_absences \_G1 \_G2 \_ & 504 & 70\% & 31\%\\
 \hline
 \end{tabular}
 
-As expected by our explanation of learning rate and momentum values in the first sections of this report,
+As expected by our explanation of learning rate and momentum values in the first sections of this report, 
 \begin{itemize}
 \item low learning rates, make for slow training.
 \item high learning rates with low momentum lead to overfitting
@@ -571,9 +574,23 @@ As expected by our explanation of learning rate and momentum values in the first
 
 \paragraph{Results}
 Analysing the table above we can conclude that the best error threshold is 0.01 and for thresholds lower than 0.01 over-fitting effects start to appear.
+\subsubsection{Neural Net Structure}
+\begin{table}[h]
+\begin{tabular}{| c | c | c | c | p{3cm} | c | c | c |}
+\hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
+\hline 0.01 & \{1\} & 0.3 & 0.8 & \_G1 \_G2 \_ & 263 & 86\% & 42\%\\
+\hline 0.01 & \{15\} & 0.3 & 0.8 & \_G1 \_G2 \_ & 243 & 87\% & 40\%\\
+\hline 0.01 & \{15,10\} & 0.3 & 0.8 & \_G1 \_G2 \_ & 294 & 89\% & 42\%\\
+\hline 0.01 & \{15,10,5\} & 0.3 & 0.8 & \_G1 \_G2 \_ & 306 & 87\% & 42\%\\
+\hline
+\end{tabular}
+\caption{Net Structure Analysis Analysis}
+\end{table}
+\paragraph{Results}
+After experiments with different net structures we can observe that both the \textit{PassAcc} and \textit{GradeAcc} have no major change, leading us to believe that only one hidden layer with 1 node is sufficient for the network to be as accurate as it can be with the data set provided.
 
 \subsubsection{Deprecated Inputs}
-\begin{table}[H]
+\begin{table}[h]
 \begin{tabular}{| c | c | c | c | p{3cm} | c | c | c |}
 \hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
 \hline 0.01 & \{1\} & 0.3 & 0.8 & \_G1 \_G2 \_ & 263 & 86\% & 41\%\\
@@ -612,44 +629,7 @@ To identify any other important inputs we create a network with only the inputs 
 Adding the inputs \textit{school}, \textit{traveltime}, \textit{internet} and \textit{famrel} we saw an increase in 2\% comparing this result with the previous experiment.
 We kept doing some experiments by removing certain inputs and got a good increase when removing the input \textit{paid}, we can then conclude that having extra paid classes for the Portuguese subject is not strictly related with the final grade and introduces confusion on the network.
 
-\subsubsection{Neural Net Structure}
-\begin{table}[H]
-\begin{tabular}{| c | c | c | c | p{3cm} | c | c | c |}
-\hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
-\hline 0.01 & \{1\} & 0.3 & 0.8 & \_sex \_age \_address \_reason \_paid \_activities \_nursery \_romantic \_freetime \_goout \_Walc \_health \_G1 \_G2 \_ & 648 & 86\% & 43\%\\
-\hline 0.01 & \{15\} & 0.3 & 0.8 & \_sex \_age \_address \_reason \_paid \_activities \_nursery \_romantic \_freetime \_goout \_Walc \_health \_G1 \_G2 \_ & 580 & 86\% & 43\%\\
-\hline 0.01 & \{15,10\} & 0.3 & 0.8 & \_sex \_age \_address \_reason \_paid \_activities \_nursery \_romantic \_freetime \_goout \_Walc \_health \_G1 \_G2 \_ & 528 & 86\% & 42\%\\
-\hline 0.01 & \{20,15,10\} & 0.3 & 0.8 & \_sex \_age \_address \_reason \_paid \_activities \_nursery \_romantic \_freetime \_goout \_Walc \_health \_G1 \_G2 \_ & 555 & 85\% & 42\%\\
-\hline 0.01 & \{15,10,5\} & 0.3 & 0.8 & \_sex \_age \_address \_reason \_paid \_activities \_nursery \_romantic \_freetime \_goout \_Walc \_health \_G1 \_G2 \_ & 563 & 86\% & 43\%\\
-\hline
-\end{tabular}
-\caption{Net Structure Analysis}
-\end{table}
-\paragraph{Results}
-After experiments with different net structures we can observe that both the \textit{PassAcc} and \textit{GradeAcc} have no major change, leading us to believe that only one hidden layer with 1 node is sufficient for the network to be as accurate as it can be with the data set provided.
-
-
-\subsubsection{Momentum and Learning Rate}
-\begin{table}[H]
-\begin{tabular}{| c | c | c | c | p{3cm} | c | c | c |}
-\hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
-\hline 0.01 & \{1\} & 0.3 & 0.1 & \_sex \_age \_address \_reason \_paid \_activities \_nursery \_romantic \_freetime \_goout \_Walc \_health \_G1 \_G2 \_ & 592 & 86\% & 42\%\\
-\hline 0.01 & \{1\} & 0.3 & 0.5 & \_sex \_age \_address \_reason \_paid \_activities \_nursery \_romantic \_freetime \_goout \_Walc \_health \_G1 \_G2 \_ & 680 & 87\% & 42\%\\
-\hline 0.01 & \{1\} & 0.3 & 0.9 & \_sex \_age \_address \_reason \_paid \_activities \_nursery \_romantic \_freetime \_goout \_Walc \_health \_G1 \_G2 \_ & 659 & 87\% & 41\%\\
-\hline 0.01 & \{1\} & 0.1 & 0.1 & \_sex \_age \_address \_reason \_paid \_activities \_nursery \_romantic \_freetime \_goout \_Walc \_health \_G1 \_G2 \_ & 1510 & 86\% & 43\%\\
-\hline 0.01 & \{1\} & 0.5 & 0.1 & \_sex \_age \_address \_reason \_paid \_activities \_nursery \_romantic \_freetime \_goout \_Walc \_health \_G1 \_G2 \_ & 425 & 87\% & 42\%\\
-\hline 0.01 & \{1\} & 0.9 & 0.1 & \_sex \_age \_address \_reason \_paid \_activities \_nursery \_romantic \_freetime \_goout \_Walc \_health \_G1 \_G2 \_ & 262 & 85\% & 41\%\\
-\hline
-\end{tabular}
-\caption{Momentum and Learning Rate Analysis}
-\end{table}
-\paragraph{Results}
-From the experiences above we can see that the momentum mainly changes the number of iterations, a high momentum can lead the algorithm to overshoot the solution many times but a very low momentum prevents the algorithm to reach the solution faster. As for the leaning rate the same conclusions can be made but in a greater scale, a low learning rate of 0.1 needs 1510 iterations to converge to a solution and as we increase the learning rate the number of iterations decrease.
-
-The values chosen for the learning rate and momentum must be an equilibrium, they must not be so low that converging takes a huge number of iterations nor so high that the solution is overshoot many times before converging.
-\newpage
 \section{Final Conclusions}
-
 So far we have learned how a neural network is structured, how the back-propagation algorithm works and how to differently train networks in order to achieve different results.
 
 We learned that when solving a problem with neural networks, the data-set must be large enough, for meaningful results. Also, when building a data-set from a questionnaire, one must always keep in mind that the participants may have lied.
