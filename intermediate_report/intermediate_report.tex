@@ -481,14 +481,40 @@ After experiments with different net structures we can observe that both the \te
 \hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
 \hline 0.01 & \{1\} & 0.3 & 0.8 & \_G1 \_G2 \_ & 263 & 86\% & 41\%\\
 \hline 0.01 & \{1\} & 0.3 & 0.8 & \_sex \_age \_address \_health \_G1 \_G2 \_ & 374 & 87\% & 42\%\\
+\hline 0.01 & \{1\} & 0.3 & 0.8 & \_sex \_age \_address \_activities \_nursery \_romantic \_health \_G1 \_G2 \_ & 516 & 87\% & 42\%\\
+\hline 0.01 & \{1\} & 0.3 & 0.8 & \_sex \_age \_address \_Pstatus \_Medu \_Fedu \_Mjob \_Fjob \_activities \_nursery \_romantic \_goout \_health \_G1 \_G2 \_ & 1899 & 86\% & 34\%\\
+\hline 0.01 & \{1\} & 0.3 & 0.8 & \_sex \_age \_address \_guardian \_studytime \_failures \_schoolsup \_famsup \_activities \_nursery \_romantic \_goout \_health \_G1 \_G2 \_ & 1269 & 85\% & 35\%\\
+\hline 0.01 & \{1\} & 0.3 & 0.8 & \_sex \_age \_address \_paid \_activities \_nursery \_higher \_romantic \_goout \_Dalc \_health \_absences \_G1 \_G2 \_ & 860 & 85\% & 35\%\\
 \hline
 \end{tabular}
-\caption{Deprecated Inputs Analysis Analysis}
+\caption{Deprecated Inputs Analysis}
 \end{table}
 
-Following our analysis for the Maths data set we expect that the inputs \textit{sex}, \textit{age}, \textit{address}, \textit{health} to not influence the neural net accuracy. As we can see our hypotheses is correct as the accuracy results without those inputs is maintained. 
+\begin{table}[H]
+\begin{tabular}{| c | c | c | c | p{3cm} | c | c | c |}
+\hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
+\hline 0.01 & \{1\} & 0.3 & 0.8 & \_sex \_age \_address \_Pstatus \_Medu \_Fedu \_Mjob \_Fjob \_guardian \_studytime \_failures \_schoolsup \_famsup \_paid \_activities \_nursery \_higher \_romantic \_goout \_Dalc \_health \_absences \_G1 \_G2 \_ & 20000 & 85\% & 36\%\\
+\hline 0.01 & \{1\} & 0.3 & 0.8 & \_school \_sex \_age \_address \_famsize \_reason \_traveltime \_activities \_nursery \_internet \_romantic \_famrel \_freetime \_goout \_Walc \_health \_G1 \_G2 \_ & 5218 & 83\% & 38\%\\
+\hline 0.01 & \{1\} & 0.3 & 0.8 & \_sex \_age \_address \_famsize \_reason \_activities \_nursery \_romantic \_freetime \_goout \_Walc \_health \_G1 \_G2 \_ & 901 & 86\% & 40\%\\
+\hline 0.01 & \{1\} & 0.3 & 0.8 & \_sex \_age \_address \_reason \_paid \_activities \_nursery \_romantic \_freetime \_goout \_Walc \_health \_G1 \_G2 \_ & 648 & 86\% & 43\%\\
+\hline
+\end{tabular}
+\caption{Deprecated Inputs Analysis (Cont.)}
+\end{table}
+
 
 \paragraph{Results}
+Following our analysis for the Maths data set we expect that the inputs \textit{sex}, \textit{age}, \textit{address}, \textit{health} to not influence the neural net accuracy. As we can see our hypotheses is correct as the accuracy results without those inputs is maintained.
+We also expect that the inputs \textit{romantic}, \textit{nursery} and \textit{activities} won't have an impact on the neural net accuracy, and looking at the experiment accuracy values we can see that it does not affect the accuracy.
+
+Some of the inputs we intuitively mark as important are \textit{Pstatus}, \textit{Medu}, \textit{Fedu}, \textit{Mjob}, \textit{Fjob}, \textit{guardian}, \textit{studytime}, \textit{failures}, \textit{schoolsup}, \textit{famsup},\textit{paid}, \textit{absences}, \textit{Dalc} and \textit{higher}.
+We made some experiments to see if the inputs we identified as important are actually of importance to the neural net accuracy. By removing some of them from the neural net inputs, we see a clear decrease in \textit{GradeAcc} leading us to conclude that these inputs are in fact important.
+
+To identify any other important inputs we create a network with only the inputs we intuitively identified as important and compare the network accuracy with the accuracy we have been getting until now. When running an experiment with only the inputs we considered important the net accuracy decreased leading us to believe some important inputs were left out, some more experiments were made to identify them.
+
+Adding the inputs \textit{school}, \textit{traveltime}, \textit{internet} and \textit{famrel} we saw an increase in 2\% comparing this result with the previous experiment.
+We kept doing some experiments by removing certain inputs and got a good increase when removing the input \textit{paid}, we can then conclude that having extra paid classes for the Portuguese subject is not strictly related with the final grade and introduces confusion on the network.
+
 \section{Conclusions}
 So far we have learned how a neural network is structured, how the back-propagation algorithm works and how to differently train networks in order to achieve different results.
 
