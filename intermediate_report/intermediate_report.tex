@@ -325,6 +325,7 @@ For the training threshold, we will test an array of different values. However, 
 \hline \textbf{min\_thresh} & \textbf{hidden} & \textbf{learn\_rate} & \textbf{momentum} & \textbf{removed} & \textbf{iterations} & \textbf{PassAcc} & \textbf{GradeAcc}\\
 \hline 0.0005 & \{1\} & 0.3 & 0.8 & \_G1\_G2\_ & 1178 & 55\% & 18\%\\
 \hline 0.025 & \{1\} & 0.3 & 0.8 & \_G1\_G2\_ & 110 & 70\% & 29\%\\
+\hline 0.01 & \{1\} & 0.3 & 0.8 & \_G1 \_G2 \_ & 333 & 60\% & 26\%\\
 \hline 0.005 & \{1\} & 0.3 & 0.8 & \_G1\_G2\_ & 490 & 64\% & 21\%\\
 \hline 0.0005 & \{1\} & 0.3 & 0.8 & \_G1\_G2\_ & 1178 & 55\% & 18\%\\
 \hline
@@ -333,12 +334,7 @@ For the training threshold, we will test an array of different values. However, 
 As expected, the minimum threshold of 0.025 was the best.
 
 \subsubsection{Removing Inputs}
-In this section we will try different combinations of
-\begin{itemize}
-\item Input nodes
-\item Hidden layer setups
-\item Training values
-\end{itemize}
+In this section we will try different combinations of input nodes.
 
 Before testing, we expect inputs like \textit{sex, age, address, health} to not help the network predicting the values. We will begin by removing these inputs.
 
@@ -446,7 +442,7 @@ Removing \textbf{MEdu} and \textbf{FEdu} lowers the accuracy, but not as much as
 \hline
 \end{tabular}
 On this experiment, removing the study\_time did not affect our network like it was supposed to. This happens because, again, most of the features are connected. After removing most of the features, removing study\_time will reduce network accuracy.
-\item Most attributes of a student's life aren't very important in calculating their final Math grade. According to our best network structure, with less inputs, what is important is the parents' education, the support the student receives from the school and parents, the time the student spends studying and how many times the student has failed before. The parents' education is important since the more educated the parents are, the more effort they will put into making sure their child spends time studying. In the end, the more a student works, the better they do. As for their out of school life, the students can fill it as they desire, just as long as they keep studying enough.
+\item Most attributes of a student's life aren't very important in calculating their final Math grade. According to our best network structure, with less inputs, what is important is the parents' education, the support the student receives from the school and parents, the time the student spends studying and how many times the student has failed before. As expected, the best input nodes are the ones that relate to studying and working.
 \end{itemize}
 
 We will keep working on this input combination:
@@ -503,7 +499,7 @@ On this section, the number of hidden layers and nodes will be changed, to achie
 \end{tabular}
 \newpage
 \paragraph{Conclusions}
-As we can see, when the network has a low number of hidden layers and nodes, the results can be inconsistent. Remember this also happens because the data-set is small. However, when increasing the number of nodes and layers the network becomes more consistent.
+As we can see, when the network has a low number of hidden layers and nodes, the results can be inconsistent. Remember this also happens because the data-set is small. However, when increasing the number of nodes and layers, the network becomes more consistent.
 
 When too many layers are added, the network starts losing accuracy again. The best combination found by us was:
 
@@ -544,7 +540,7 @@ As expected by our explanation of learning rate and momentum values in the first
 \begin{itemize}
 \item low learning rates, make for slow training.
 \item high learning rates with low momentum lead to overfitting
-\item high learning rates and high momentum do not lead to overfitting, and make for fast training. This happens for this problem. It is expected that high learning rates might lead to overfitting.
+\item high learning rates and high momentum do not lead to overfitting, and make for fast training. This happens for this problem. High learning rates might lead to overfitting in different problems.
 \end{itemize}
 
 \hfill \break
